@@ -57,6 +57,18 @@ class _PendingRequestPageState extends State<PendingRequestPage> {
                   ),
                 ),
               ),
+              Container(
+                padding: EdgeInsets.all(5),
+                margin: EdgeInsets.only(right: 0, left: 0),
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontFamily: "quicksand",
+                      fontWeight: FontWeight.w400),
+                ),
+              ),
             ],
           ),
         ),

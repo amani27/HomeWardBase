@@ -197,7 +197,7 @@ class _NoCaseFoundPageState extends State<NoCaseFoundPage> {
             GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddMemberPage()));
+                    MaterialPageRoute(builder: (context) => AddMemberPage(1)));
               },
               child: Container(
                 margin: EdgeInsets.all(20),

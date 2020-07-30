@@ -81,7 +81,7 @@ class _LanguageSeeAllState extends State<LanguageSeeAll> {
                         fontWeight: FontWeight.w400),
                   )),
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:homewardbase/CaseCreatedPage/CaseCreatedPage.dart';
+import 'package:homewardbase/InviteSentPage/InviteSentPage.dart';
 import 'package:homewardbase/main.dart';
 
 class AddMemberPage extends StatefulWidget {
+  final data;
+  AddMemberPage(this.data);
   @override
   _AddMemberPageState createState() => _AddMemberPageState();
 }
@@ -161,20 +164,28 @@ class _AddMemberPageState extends State<AddMemberPage> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 150,
+        height: widget.data == 1 ? 150 : 115,
         child: Column(
           children: <Widget>[
             GestureDetector(
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CaseCreatedPage()));
+                widget.data == 1
+                    ? Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CaseCreatedPage()))
+                    : Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => InviteSentPage()));
               },
               child: Container(
                 margin: EdgeInsets.all(20),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.only(top: 15, bottom: 15),
-                  margin: EdgeInsets.only(top: 0),
+                  margin: EdgeInsets.only(
+                      top: 0, bottom: widget.data == 1 ? 0 : 20),
                   decoration: BoxDecoration(
                       color: selectedColor,
                       borderRadius: BorderRadius.circular(10),
@@ -196,18 +207,21 @@ class _AddMemberPageState extends State<AddMemberPage> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(left: 22, right: 40, top: 0, bottom: 20),
-              child: Text(
-                "Skip",
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                    color: Color(0xff003A5B),
-                    fontFamily: "quicksand",
-                    fontSize: 12,
-                    fontWeight: FontWeight.w400),
-              ),
-            ),
+            widget.data == 1
+                ? Container(
+                    margin: EdgeInsets.only(
+                        left: 22, right: 40, top: 0, bottom: 20),
+                    child: Text(
+                      "Skip",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          color: Color(0xff003A5B),
+                          fontFamily: "quicksand",
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
