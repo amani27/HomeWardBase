@@ -495,7 +495,7 @@ class _AddNewPageState extends State<AddNewPage> {
                   },
                   child: Container(
                       child: Image.asset(
-                    "assets/image/attachment.png",
+                    "assets/image/people.png",
                     //height: 17,
                     width: 53,
                   )),
@@ -672,7 +672,7 @@ class _AddNewPageState extends State<AddNewPage> {
                   },
                   child: Container(
                       child: Image.asset(
-                    "assets/image/people.png",
+                    "assets/image/attachment.png",
                     //height: 17,
                     width: 53,
                   )),
