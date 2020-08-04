@@ -1,4 +1,10 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:homewardbase/AddPlacementPage/AddPlacementPage.dart';
 
 import '../../../main.dart';
 
@@ -30,6 +36,17 @@ class _BiographicalPageState extends State<BiographicalPage> {
       'desc': 'CPS',
       'status': 'Caseworker',
       'checked': false
+    },
+  ];
+
+  List documentList = [
+    {
+      'type': 'security',
+      'name': 'Social Security Card',
+    },
+    {
+      'type': 'birth',
+      'name': 'Birth Certificate',
     },
   ];
 
@@ -122,6 +139,15 @@ class _BiographicalPageState extends State<BiographicalPage> {
   bool isPlacementAvailable = false;
   bool isSiblingsAvailable = false;
   bool isKinshipAvailable = false;
+  bool isinterestPressed = false;
+  bool isDocumentPressed = false;
+  bool isDocItemPressed = false;
+
+  String interests = "", doc = "", path = "";
+  TextEditingController interestsController = new TextEditingController();
+  TextEditingController docController = new TextEditingController();
+
+  File file;
 
   @override
   Widget build(BuildContext context) {
@@ -534,7 +560,9 @@ class _BiographicalPageState extends State<BiographicalPage> {
                             ? isEditOpen == false
                                 ? Container()
                                 : GestureDetector(
-                                    onTap: () {},
+                                    onTap: () {
+                                      _showAddInterestsDialog();
+                                    },
                                     child: Container(
                                       margin: EdgeInsets.all(5),
                                       child: Container(
@@ -567,7 +595,11 @@ class _BiographicalPageState extends State<BiographicalPage> {
                                     ),
                                   )
                             : GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  setState(() {
+                                    games.removeAt(index);
+                                  });
+                                },
                                 child: Container(
                                   margin: EdgeInsets.all(5),
                                   child: Container(
@@ -648,14 +680,19 @@ class _BiographicalPageState extends State<BiographicalPage> {
                         ),
                         isEditOpen == false
                             ? Container()
-                            : Text(
-                                "+ Add Document",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: selectedColor,
-                                    fontSize: 11,
-                                    fontFamily: "quicksand",
-                                    fontWeight: FontWeight.w500),
+                            : GestureDetector(
+                                onTap: () {
+                                  _showUploadDocDialog();
+                                },
+                                child: Text(
+                                  "+ Add Document",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: selectedColor,
+                                      fontSize: 11,
+                                      fontFamily: "quicksand",
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
                       ],
                     ),
@@ -674,153 +711,88 @@ class _BiographicalPageState extends State<BiographicalPage> {
                   ),
                   isDocAvailable
                       ? Container(
+                          margin: EdgeInsets.only(top: 0),
                           child: Column(
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(left: 15, right: 15),
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffF5FDFA)
-                                              .withOpacity(0.5),
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: Image.asset(
-                                          "assets/image/birth_certificate.png"),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(left: 15),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              child: Text(
-                                                "Social Security Card",
-                                                textAlign: TextAlign.start,
-                                                style: TextStyle(
-                                                    color: Color(0xff060606),
-                                                    fontSize: 14,
-                                                    fontFamily: 'quicksand',
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: 5),
-                                              child: Text(
-                                                "View",
-                                                textAlign: TextAlign.justify,
-                                                style: TextStyle(
-                                                    color: Color(0xff003A5B),
-                                                    fontSize: 11,
-                                                    fontFamily: 'quicksand',
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    isEditOpen == false
-                                        ? Container()
-                                        : Container(
-                                            margin: EdgeInsets.only(right: 0),
+                              children:
+                                  List.generate(documentList.length, (index) {
+                            return Container(
+                              margin: EdgeInsets.only(
+                                  left: 15,
+                                  right: 15,
+                                  top: index == 0 ? 0 : 20),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    height: 40,
+                                    width: 40,
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color:
+                                            Color(0xffF5FDFA).withOpacity(0.5),
+                                        borderRadius:
+                                            BorderRadius.circular(15)),
+                                    child: Image.asset(documentList[index]
+                                                ['type'] ==
+                                            "security"
+                                        ? "assets/image/security_card.png"
+                                        : documentList[index]['type'] == "birth"
+                                            ? "assets/image/birth_certificate.png"
+                                            : "assets/image/google-docs.png"),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 15),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
                                             child: Text(
-                                              "trash",
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.center,
+                                              documentList[index]['name'],
+                                              textAlign: TextAlign.start,
                                               style: TextStyle(
-                                                  color: Color(0xffF9423A),
-                                                  fontSize: 12,
-                                                  fontFamily: "quicksand",
-                                                  fontWeight: FontWeight.w400),
+                                                  color: Color(0xff060606),
+                                                  fontSize: 14,
+                                                  fontFamily: 'quicksand',
+                                                  fontWeight: FontWeight.w500),
                                             ),
                                           ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 15, right: 15, top: 20),
-                                child: Row(
-                                  children: <Widget>[
-                                    Container(
-                                      height: 40,
-                                      width: 40,
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: Color(0xffF5FDFA)
-                                              .withOpacity(0.5),
-                                          borderRadius:
-                                              BorderRadius.circular(15)),
-                                      child: Image.asset(
-                                          "assets/image/security_card.png"),
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        margin: EdgeInsets.only(left: 15),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: <Widget>[
-                                            Container(
-                                              child: Text(
-                                                "Birth Ceritificate",
-                                                textAlign: TextAlign.start,
-                                                style: TextStyle(
-                                                    color: Color(0xff060606),
-                                                    fontSize: 14,
-                                                    fontFamily: 'quicksand',
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: EdgeInsets.only(top: 5),
-                                              child: Text(
-                                                "View",
-                                                textAlign: TextAlign.justify,
-                                                style: TextStyle(
-                                                    color: Color(0xff003A5B),
-                                                    fontSize: 11,
-                                                    fontFamily: 'quicksand',
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    isEditOpen == false
-                                        ? Container()
-                                        : Container(
-                                            margin: EdgeInsets.only(right: 0),
+                                          Container(
+                                            margin: EdgeInsets.only(top: 5),
                                             child: Text(
-                                              "trash",
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.center,
+                                              "View",
+                                              textAlign: TextAlign.justify,
                                               style: TextStyle(
-                                                  color: Color(0xffF9423A),
-                                                  fontSize: 12,
-                                                  fontFamily: "quicksand",
-                                                  fontWeight: FontWeight.w400),
+                                                  color: Color(0xff003A5B),
+                                                  fontSize: 11,
+                                                  fontFamily: 'quicksand',
+                                                  fontWeight: FontWeight.w500),
                                             ),
                                           ),
-                                  ],
-                                ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  isEditOpen == false
+                                      ? Container()
+                                      : Container(
+                                          margin: EdgeInsets.only(right: 0),
+                                          child: Text(
+                                            "trash",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Color(0xffF9423A),
+                                                fontSize: 12,
+                                                fontFamily: "quicksand",
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                ],
                               ),
-                            ],
-                          ),
+                            );
+                          })),
                         )
                       : Container(
                           child: Column(
@@ -3036,6 +3008,10 @@ class _BiographicalPageState extends State<BiographicalPage> {
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddPlacementPage()));
                           },
                           child: Container(
                               alignment: Alignment.center,
@@ -3061,5 +3037,794 @@ class _BiographicalPageState extends State<BiographicalPage> {
             ),
           );
         });
+  }
+
+  Future<Null> _showAddInterestsDialog() async {
+    return showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              content: StatefulBuilder(builder: (context, setState) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              )),
+                          padding: EdgeInsets.only(bottom: 10, top: 20),
+                          child: Text(
+                            "Add Activities & Interests",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'quicksand',
+                                color: mainColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17),
+                          ),
+                        ),
+                        Container(
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: Colors.grey, width: 0.15),
+                                borderRadius: BorderRadius.circular(5)),
+                            width: MediaQuery.of(context).size.width,
+                            margin:
+                                EdgeInsets.only(left: 20, right: 20, top: 5),
+                            padding:
+                                EdgeInsets.only(top: 5, bottom: 5, right: 10),
+                            child: Row(
+                              children: <Widget>[
+                                Flexible(
+                                  child: TextField(
+                                    onChanged: (value) {
+                                      setState(() {
+                                        interests = value;
+                                      });
+                                    },
+                                    controller: interestsController,
+                                    autofocus: false,
+                                    style: TextStyle(
+                                        color: Color(0xff7A98A9),
+                                        fontSize: 12,
+                                        fontFamily: 'quicksand',
+                                        fontWeight: FontWeight.w500),
+                                    decoration: InputDecoration(
+                                      hintText: "e.g. Basketbal",
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff7A98A9),
+                                          fontSize: 12,
+                                          fontFamily: 'quicksand',
+                                          fontWeight: FontWeight.w500),
+                                      contentPadding:
+                                          EdgeInsets.fromLTRB(12.0, 0, 12.0, 0),
+                                      border: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )),
+                        isinterestPressed
+                            ? Container(
+                                height: 35,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(color: selectedColor)),
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, top: 20, bottom: 20),
+                                padding: EdgeInsets.only(
+                                    left: 8, right: 8, top: 8, bottom: 8),
+                                child: SpinKitWave(
+                                    color: selectedColor.withOpacity(0.5)))
+                            : Container(
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10),
+                                    ),
+                                    border: Border.all(color: Colors.white)),
+                                padding: EdgeInsets.only(
+                                    left: 20, right: 20, top: 20),
+                                child: Row(
+                                  children: <Widget>[
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Container(
+                                          width: 100,
+                                          alignment: Alignment.center,
+                                          padding: EdgeInsets.all(10),
+                                          margin: EdgeInsets.only(
+                                              top: 0,
+                                              bottom: 20,
+                                              left: 0,
+                                              right: 2.5),
+                                          decoration: BoxDecoration(
+                                            color: Color(0xffF8F8F8),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          child: Text("Cancel",
+                                              style: TextStyle(
+                                                  color: Color(0xff003A5B),
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: "quicksand"))),
+                                    ),
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            isinterestPressed = true;
+                                          });
+                                          Timer(Duration(seconds: 3), () {
+                                            Navigator.pop(context);
+                                            refresh(1);
+                                          });
+                                        },
+                                        child: Container(
+                                            alignment: Alignment.center,
+                                            padding: EdgeInsets.all(10),
+                                            margin: EdgeInsets.only(
+                                                top: 0,
+                                                bottom: 20,
+                                                left: 2.5,
+                                                right: 0),
+                                            decoration: BoxDecoration(
+                                              color: selectedColor,
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            child: Text("+ Add",
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 11,
+                                                    fontWeight: FontWeight.w500,
+                                                    fontFamily: "quicksand"))),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
+                );
+              }));
+        });
+  }
+
+  void refresh(number) {
+    if (number == 1) {
+      setState(() {
+        isinterestPressed = false;
+        games.remove("add_people");
+        games.add(interests);
+        games.add("add_people");
+        interests = "";
+        interestsController.text = "";
+      });
+    } else {
+      setState(() {
+        isDocumentPressed = false;
+        documentList.add({
+          'type': doc == "Social Security Card"
+              ? "security"
+              : doc == "Birth Ceritificate" ? "birth" : "other",
+          'name': doc
+        });
+        doc = "";
+        docController.text = "";
+        path = "";
+        isDocItemPressed = false;
+      });
+    }
+  }
+
+  Future<Null> _showUploadDocDialog() async {
+    return showDialog<Null>(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              content: StatefulBuilder(builder: (context, setState) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              )),
+                          padding: EdgeInsets.only(bottom: 10, top: 20),
+                          child: Text(
+                            "Upload Document",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'quicksand',
+                                color: mainColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17),
+                          ),
+                        ),
+                        path == "ok"
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    file = null;
+                                  });
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      left: 15, right: 15, top: 20, bottom: 20),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Container(
+                                        height: 40,
+                                        width: 40,
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                            color: Color(0xffF5FDFA)
+                                                .withOpacity(0.5),
+                                            borderRadius:
+                                                BorderRadius.circular(15)),
+                                        child: Image.asset(doc ==
+                                                "Social Security Card"
+                                            ? "assets/image/security_card.png"
+                                            : doc == "Birth Ceritificate"
+                                                ? "assets/image/birth_certificate.png"
+                                                : "assets/image/google-docs.png"),
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          margin: EdgeInsets.only(left: 15),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              Container(
+                                                child: Text(
+                                                  doc == "Social Security Card"
+                                                      ? "Social Security Card"
+                                                      : doc ==
+                                                              "Birth Ceritificate"
+                                                          ? "Birth Ceritificate"
+                                                          : doc,
+                                                  textAlign: TextAlign.start,
+                                                  style: TextStyle(
+                                                      color: Color(0xff060606),
+                                                      fontSize: 14,
+                                                      fontFamily: 'quicksand',
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 5),
+                                                child: Text(
+                                                  "Remove",
+                                                  textAlign: TextAlign.justify,
+                                                  style: TextStyle(
+                                                      color: Color(0xff003A5B),
+                                                      fontSize: 11,
+                                                      fontFamily: 'quicksand',
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : isDocItemPressed
+                                ? Column(
+                                    children: <Widget>[
+                                      Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 0.15),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          margin: EdgeInsets.only(
+                                              left: 20,
+                                              right: 20,
+                                              top: 5,
+                                              bottom: 0),
+                                          padding: EdgeInsets.only(
+                                              top: 5, bottom: 5, right: 10),
+                                          child: Row(
+                                            children: <Widget>[
+                                              Flexible(
+                                                child: TextField(
+                                                  onChanged: (value) {
+                                                    setState(() {
+                                                      doc = value;
+                                                    });
+                                                  },
+                                                  controller: docController,
+                                                  autofocus: false,
+                                                  enabled: doc ==
+                                                          "Social Security Card"
+                                                      ? false
+                                                      : doc ==
+                                                              "Birth Ceritificate"
+                                                          ? false
+                                                          : true,
+                                                  style: TextStyle(
+                                                      color: Color(0xff7A98A9),
+                                                      fontSize: 12,
+                                                      fontFamily: 'quicksand',
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                  decoration: InputDecoration(
+                                                    hintText: "Document Name",
+                                                    hintStyle: TextStyle(
+                                                        color:
+                                                            Color(0xff7A98A9),
+                                                        fontSize: 12,
+                                                        fontFamily: 'quicksand',
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                    contentPadding:
+                                                        EdgeInsets.fromLTRB(
+                                                            12.0, 0, 12.0, 0),
+                                                    border: InputBorder.none,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                      GestureDetector(
+                                        onTap: () {
+                                          //initMultiFilePickUp();
+                                          setState(() {
+                                            path = "ok";
+                                            //isDocItemPressed = false;
+                                          });
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                  color: Colors.grey,
+                                                  width: 0.15),
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          width:
+                                              MediaQuery.of(context).size.width,
+                                          margin: EdgeInsets.only(
+                                              left: 20,
+                                              right: 20,
+                                              top: 10,
+                                              bottom: 20),
+                                          padding: EdgeInsets.only(
+                                              top: 20, bottom: 20, right: 10),
+                                          child: Column(
+                                            children: <Widget>[
+                                              Container(
+                                                height: 32,
+                                                width: 32,
+                                                child: Image.asset(
+                                                    "assets/image/document_add.png"),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 5),
+                                                child: Text(
+                                                  "Upload Document",
+                                                  textAlign: TextAlign.justify,
+                                                  style: TextStyle(
+                                                      color: Color(0xff7A98A9),
+                                                      fontSize: 11,
+                                                      fontFamily: 'quicksand',
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.only(bottom: 20),
+                                    child: Column(
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              docController.text =
+                                                  "Social Security Card";
+                                              doc = "Social Security Card";
+                                              isDocItemPressed = true;
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: 15, right: 15, top: 20),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  padding: EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xffF5FDFA)
+                                                          .withOpacity(0.5),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                  child: Image.asset(
+                                                      "assets/image/birth_certificate.png"),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 15),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          child: Text(
+                                                            "Social Security Card",
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff060606),
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'quicksand',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  top: 5),
+                                                          child: Text(
+                                                            "Upload",
+                                                            textAlign: TextAlign
+                                                                .justify,
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff003A5B),
+                                                                fontSize: 11,
+                                                                fontFamily:
+                                                                    'quicksand',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              docController.text =
+                                                  "Birth Ceritificate";
+                                              doc = "Birth Ceritificate";
+                                              isDocItemPressed = true;
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: 15, right: 15, top: 20),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  padding: EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xffF5FDFA)
+                                                          .withOpacity(0.5),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                  child: Image.asset(
+                                                      "assets/image/security_card.png"),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 15),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          child: Text(
+                                                            "Birth Ceritificate",
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff060606),
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'quicksand',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  top: 5),
+                                                          child: Text(
+                                                            "Upload",
+                                                            textAlign: TextAlign
+                                                                .justify,
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff003A5B),
+                                                                fontSize: 11,
+                                                                fontFamily:
+                                                                    'quicksand',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              docController.text = "";
+                                              doc = "";
+                                              isDocItemPressed = true;
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: 15, right: 15, top: 20),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: 40,
+                                                  width: 40,
+                                                  padding: EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      color: Color(0xffF5FDFA)
+                                                          .withOpacity(0.5),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                  child: Image.asset(
+                                                      "assets/image/google-docs.png"),
+                                                ),
+                                                Expanded(
+                                                  child: Container(
+                                                    margin: EdgeInsets.only(
+                                                        left: 15),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          child: Text(
+                                                            "Other Document",
+                                                            textAlign:
+                                                                TextAlign.start,
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff060606),
+                                                                fontSize: 14,
+                                                                fontFamily:
+                                                                    'quicksand',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  top: 5),
+                                                          child: Text(
+                                                            "Upload",
+                                                            textAlign: TextAlign
+                                                                .justify,
+                                                            style: TextStyle(
+                                                                color: Color(
+                                                                    0xff003A5B),
+                                                                fontSize: 11,
+                                                                fontFamily:
+                                                                    'quicksand',
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                        isDocumentPressed
+                            ? Container(
+                                height: 35,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                    border: Border.all(color: selectedColor)),
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, top: 20, bottom: 20),
+                                padding: EdgeInsets.only(
+                                    left: 8, right: 8, top: 8, bottom: 8),
+                                child: SpinKitWave(
+                                    color: selectedColor.withOpacity(0.5)))
+                            : isDocItemPressed
+                                ? Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.only(
+                                          bottomRight: Radius.circular(10),
+                                          bottomLeft: Radius.circular(10),
+                                        ),
+                                        border:
+                                            Border.all(color: Colors.white)),
+                                    padding: EdgeInsets.only(
+                                        left: 20, right: 20, top: 0),
+                                    child: Row(
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          onTap: () {
+                                            //Navigator.pop(context);
+                                            setState(() {
+                                              isDocItemPressed = false;
+                                              path = "";
+                                            });
+                                          },
+                                          child: Container(
+                                              width: 100,
+                                              alignment: Alignment.center,
+                                              padding: EdgeInsets.all(10),
+                                              margin: EdgeInsets.only(
+                                                  top: 0,
+                                                  bottom: 20,
+                                                  left: 0,
+                                                  right: 2.5),
+                                              decoration: BoxDecoration(
+                                                color: Color(0xffF8F8F8),
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                              ),
+                                              child: Text("Cancel",
+                                                  style: TextStyle(
+                                                      color: Color(0xff003A5B),
+                                                      fontSize: 11,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontFamily:
+                                                          "quicksand"))),
+                                        ),
+                                        Expanded(
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                isDocumentPressed = true;
+                                              });
+                                              Timer(Duration(seconds: 3), () {
+                                                Navigator.pop(context);
+                                                refresh(2);
+                                              });
+                                            },
+                                            child: Container(
+                                                alignment: Alignment.center,
+                                                padding: EdgeInsets.all(10),
+                                                margin: EdgeInsets.only(
+                                                    top: 0,
+                                                    bottom: 20,
+                                                    left: 2.5,
+                                                    right: 0),
+                                                decoration: BoxDecoration(
+                                                  color: selectedColor,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                ),
+                                                child: Text("+ Add",
+                                                    style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 11,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontFamily:
+                                                            "quicksand"))),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : Container(),
+                      ],
+                    ),
+                  ),
+                );
+              }));
+        });
+  }
+
+  Future initMultiFilePickUp() async {
+    var filePicked = await FilePicker.getFile();
+    // var file = await ImagePicker.pickImage(
+    //     source: ImageSource.gallery, imageQuality: 80);
+    print(filePicked);
+    //path = filePicked.path;
+
+    // if (filePicked != null) {
+    //   file = filePicked;
+    // }
+
+    // setState(() {
+    //   isDocItemPressed = false;
+    // });
   }
 }

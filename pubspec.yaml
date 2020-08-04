@@ -30,6 +30,7 @@ dependencies:
   get_version:
   custom_switch_button:
   flutter_xlider:
+  file_picker:
 
 dev_dependencies:
   flutter_test:
