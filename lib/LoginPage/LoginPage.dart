@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                 margin:
                     EdgeInsets.only(left: 22, right: 40, top: 10, bottom: 40),
                 child: Text(
-                  "Log in to access to Homewardbase.",
+                  "Log in to access Homewardbase.",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       color: Color(0xff003A5B),

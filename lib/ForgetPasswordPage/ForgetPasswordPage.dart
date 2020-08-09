@@ -46,7 +46,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                 margin:
                     EdgeInsets.only(left: 22, right: 40, top: 10, bottom: 40),
                 child: Text(
-                  "Enter your email below to receive your password reset instruction.",
+                  "Enter your email below to receive your password reset instructions.",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                       color: Color(0xff003A5B),

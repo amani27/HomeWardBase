@@ -1,16 +1,20 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:homewardbase/CheckSlider/data.dart';
 import 'package:homewardbase/LoginPage/LoginPage.dart';
+import 'package:intro_slider/dot_animation_enum.dart';
+import 'package:intro_slider/intro_slider.dart';
+import 'package:intro_slider/slide_object.dart';
 
 import '../main.dart';
 
-class WelcomePage extends StatefulWidget {
+class IntroScreen extends StatefulWidget {
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  IntroScreenState createState() => new IntroScreenState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class IntroScreenState extends State<IntroScreen> {
   List<SliderModel> mySLides = new List<SliderModel>();
   int slideIndex = 0;
   PageController controller;

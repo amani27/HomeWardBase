@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:homewardbase/ReadyToGoPage/ReadyToGoPage.dart';
 import 'package:homewardbase/main.dart';
 
@@ -11,15 +14,19 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   List<DropdownMenuItem<String>> _dropDownRoleItems;
   List<DropdownMenuItem<String>> _dropDownStateItems;
   List arrRole = [
-    "Parent",
+    "Foster/adoptive parent",
+    "Caseworker",
+    "CASA/GAL",
+    "Attorney ad litem",
+    "Residential facility worker",
+    "Other",
   ];
-  List arrState = [
-    "New York",
-  ];
+  List arrState = ["Select States"];
   String valRole = "",
       valState = "",
       fname = "",
       lname = "",
+      roleType = "",
       city = "",
       email = "",
       mobile = "",
@@ -31,19 +38,34 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
       officePhoneCorrect = false;
   TextEditingController fNameController = new TextEditingController();
   TextEditingController lNameController = new TextEditingController();
+  TextEditingController roleTypeController = new TextEditingController();
   TextEditingController cityController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
   TextEditingController mobNumController = new TextEditingController();
   TextEditingController officeNumController = new TextEditingController();
   TextEditingController homeNumController = new TextEditingController();
 
+  var jsonResult;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    loadStates();
     _dropDownRoleItems = getDropDownRoleItems();
     valRole = _dropDownRoleItems[0].value;
+  }
 
+  Future<void> loadStates() async {
+    String data = await rootBundle.loadString('assets/json/us_states.json');
+    jsonResult = json.decode(data);
+    //print(jsonResult);
+    for (int i = 0; i < jsonResult.length; i++) {
+      //print(jsonResult[i]['name']);
+      arrState.add(jsonResult[i]['name']);
+    }
+
+    print(arrState);
     _dropDownStateItems = getDropDownStateItems();
     valState = _dropDownStateItems[0].value;
   }
@@ -122,7 +144,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
               margin: EdgeInsets.only(left: 22, right: 22, top: 10, bottom: 40),
               child: Text(
                 "Your details here will be visible to other Homewardbase users on associated cases.",
-                textAlign: TextAlign.justify,
+                textAlign: TextAlign.start,
                 style: TextStyle(
                     color: Color(0xff003A5B),
                     fontFamily: "quicksand",
@@ -276,7 +298,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
             Container(
               margin: EdgeInsets.only(left: 22, right: 20, top: 5),
               child: Text(
-                "Add profile image",
+                "Select Role",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Color(0xff003A5B),
@@ -319,6 +341,48 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                 ),
               ),
             ),
+            valRole != "Other"
+                ? Container()
+                : Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.only(left: 10, right: 20, top: 5),
+                    child: Row(
+                      children: <Widget>[
+                        Flexible(
+                          child: TextField(
+                            onChanged: (value) {
+                              setState(() {
+                                roleType = value;
+                              });
+                            },
+                            controller: roleTypeController,
+                            autofocus: false,
+                            keyboardType: TextInputType.emailAddress,
+                            style: TextStyle(
+                                color: Color(0xff003A5B).withOpacity(0.6),
+                                fontFamily: 'quicksand',
+                                fontWeight: FontWeight.w600),
+                            decoration: InputDecoration(
+                              hintText: "Enter Your Role",
+                              hintStyle: TextStyle(
+                                  color: Color(0xff003A5B).withOpacity(0.6),
+                                  fontSize: 15,
+                                  fontFamily: 'quicksand',
+                                  fontWeight: FontWeight.w600),
+                              labelStyle: TextStyle(
+                                  color: Color(0xff003A5B),
+                                  fontSize: 15,
+                                  fontFamily: 'quicksand',
+                                  fontWeight: FontWeight.w500),
+                              labelText: "Your Role",
+                              contentPadding:
+                                  EdgeInsets.fromLTRB(12.0, 0, 12.0, 0),
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
             Container(
               //height: 15,
               margin: EdgeInsets.only(left: 20, right: 20, top: 5),

@@ -779,64 +779,72 @@ class _HomePageState extends State<HomePage> {
                       endIndent: 0,
                     ),
                   ),
-                  Container(
-                    margin:
-                        EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 10),
-                    padding: EdgeInsets.only(
-                        left: 20, right: 20, top: 15, bottom: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                              color: selectedColor,
-                              image: DecorationImage(
-                                  image: AssetImage("assets/image/baby3.png"),
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(100)),
-                          height: 33,
-                          width: 33,
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    "Liliana Hudson",
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: mainColor.withOpacity(0.6),
-                                        fontSize: 10,
-                                        fontFamily: "quicksand",
-                                        fontWeight: FontWeight.w600),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileBioPage()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 0, right: 0, top: 0, bottom: 10),
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 15, bottom: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                                color: selectedColor,
+                                image: DecorationImage(
+                                    image: AssetImage("assets/image/baby3.png"),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(100)),
+                            height: 33,
+                            width: 33,
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      "Liliana Hudson",
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: mainColor.withOpacity(0.6),
+                                          fontSize: 10,
+                                          fontFamily: "quicksand",
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    "Adoptive Placement - 10 yo",
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: mainColor,
-                                        fontSize: 8,
-                                        fontFamily: "quicksand",
-                                        fontWeight: FontWeight.w500),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      "Adoptive Placement - 10 yo",
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: mainColor,
+                                          fontSize: 8,
+                                          fontFamily: "quicksand",
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -966,64 +974,72 @@ class _HomePageState extends State<HomePage> {
                       endIndent: 0,
                     ),
                   ),
-                  Container(
-                    margin:
-                        EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 10),
-                    padding: EdgeInsets.only(
-                        left: 20, right: 20, top: 15, bottom: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                              color: selectedColor,
-                              image: DecorationImage(
-                                  image: AssetImage("assets/image/baby3.png"),
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(100)),
-                          height: 33,
-                          width: 33,
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    "Liliana Hudson",
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: mainColor.withOpacity(0.6),
-                                        fontSize: 10,
-                                        fontFamily: "quicksand",
-                                        fontWeight: FontWeight.w600),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileBioPage()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 0, right: 0, top: 0, bottom: 10),
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 15, bottom: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                                color: selectedColor,
+                                image: DecorationImage(
+                                    image: AssetImage("assets/image/baby3.png"),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(100)),
+                            height: 33,
+                            width: 33,
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      "Liliana Hudson",
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: mainColor.withOpacity(0.6),
+                                          fontSize: 10,
+                                          fontFamily: "quicksand",
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    "Adoptive Placement - 10 yo",
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: mainColor,
-                                        fontSize: 8,
-                                        fontFamily: "quicksand",
-                                        fontWeight: FontWeight.w500),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      "Adoptive Placement - 10 yo",
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: mainColor,
+                                          fontSize: 8,
+                                          fontFamily: "quicksand",
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -1204,64 +1220,72 @@ class _HomePageState extends State<HomePage> {
                       endIndent: 0,
                     ),
                   ),
-                  Container(
-                    margin:
-                        EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 10),
-                    padding: EdgeInsets.only(
-                        left: 20, right: 20, top: 15, bottom: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                              color: selectedColor,
-                              image: DecorationImage(
-                                  image: AssetImage("assets/image/baby3.png"),
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(100)),
-                          height: 33,
-                          width: 33,
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    "Liliana Hudson",
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: mainColor.withOpacity(0.6),
-                                        fontSize: 10,
-                                        fontFamily: "quicksand",
-                                        fontWeight: FontWeight.w600),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileBioPage()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 0, right: 0, top: 0, bottom: 10),
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 15, bottom: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                                color: selectedColor,
+                                image: DecorationImage(
+                                    image: AssetImage("assets/image/baby3.png"),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(100)),
+                            height: 33,
+                            width: 33,
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      "Liliana Hudson",
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: mainColor.withOpacity(0.6),
+                                          fontSize: 10,
+                                          fontFamily: "quicksand",
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    "Pending",
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: mainColor,
-                                        fontSize: 8,
-                                        fontFamily: "quicksand",
-                                        fontWeight: FontWeight.w500),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    child: Text(
+                                      "Pending",
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: mainColor,
+                                          fontSize: 8,
+                                          fontFamily: "quicksand",
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   )
                 ],

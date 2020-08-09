@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homewardbase/HomePage/HomePage.dart';
 import 'package:homewardbase/main.dart';
 
 class ReadyToGoPage extends StatefulWidget {
@@ -84,10 +85,8 @@ class _ReadyToGoPageState extends State<ReadyToGoPage> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ReadyToGoPage()));
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
                     },
                     child: Container(
                       margin: EdgeInsets.all(20),
