@@ -87,7 +87,16 @@ class _NotificationPageState extends State<NotificationPage> {
         ),
         actions: <Widget>[
           Container(
-            child: Icon(Icons.ac_unit),
+            padding: EdgeInsets.all(0),
+            margin: EdgeInsets.only(right: 0, left: 0),
+            child: Text(
+              "Cancel",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontFamily: "quicksand",
+                  fontWeight: FontWeight.w400),
+            ),
           )
         ],
       ),

@@ -63,7 +63,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.all(0),
                 margin: EdgeInsets.only(right: 0, left: 0),
                 child: Text(
                   "Cancel",

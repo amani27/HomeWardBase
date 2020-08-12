@@ -9,6 +9,7 @@ import 'package:homewardbase/NotificationPage/NotificationPage.dart';
 import 'package:homewardbase/PendingRequestPage/PendingRequestPage.dart';
 import 'package:homewardbase/ProfileBioPage/ProfileBioPage.dart';
 import 'package:homewardbase/SecurityPage/SecurityPage.dart';
+import 'package:homewardbase/YourProfilePage/YourProfilePage.dart';
 import 'package:homewardbase/main.dart';
 import 'package:flutter/services.dart';
 
@@ -47,6 +48,8 @@ class _HomePageState extends State<HomePage> {
       'boa': false,
     },
   ];
+
+  bool isPendingClose = false;
 
   @override
   initState() {
@@ -706,7 +709,7 @@ class _HomePageState extends State<HomePage> {
                         Expanded(
                           child: GestureDetector(
                             onTap: () {
-                              _showRemovalDialog(1);
+                              _showCaseDialog(1);
                             },
                             child: Container(
                               margin: EdgeInsets.only(top: 5, right: 7.5),
@@ -898,63 +901,68 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(left: 20, right: 20),
-                    margin: EdgeInsets.only(top: 10),
-                    child: Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              _showCloseDialog(1);
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(top: 5, right: 7.5),
-                              padding: EdgeInsets.only(
-                                  top: 10, bottom: 10, left: 14, right: 14),
-                              decoration: BoxDecoration(
-                                  color: mainColor,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text(
-                                "Accept close",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontFamily: "quicksand",
-                                    fontWeight: FontWeight.w600),
+                  isPendingClose == false
+                      ? Container(
+                          padding: EdgeInsets.only(left: 20, right: 20),
+                          margin: EdgeInsets.only(top: 10),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    _showCaseDialog(2);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 5, right: 7.5),
+                                    padding: EdgeInsets.only(
+                                        top: 10,
+                                        bottom: 10,
+                                        left: 14,
+                                        right: 14),
+                                    decoration: BoxDecoration(
+                                        color: mainColor,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: Text(
+                                      "Accept close",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontFamily: "quicksand",
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              Expanded(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 5, left: 7.5),
+                                  padding: EdgeInsets.only(
+                                      top: 10, bottom: 10, left: 14, right: 14),
+                                  decoration: BoxDecoration(
+                                      color: Color(0xFFF9423A),
+                                      borderRadius: BorderRadius.circular(5)),
+                                  child: Text(
+                                    "Reject close",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontFamily: "quicksand",
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(top: 5, left: 7.5),
-                            padding: EdgeInsets.only(
-                                top: 10, bottom: 10, left: 14, right: 14),
-                            decoration: BoxDecoration(
-                                color: Color(0xFFF9423A),
-                                borderRadius: BorderRadius.circular(5)),
-                            child: Text(
-                              "Reject close",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                  fontFamily: "quicksand",
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                        )
+                      : Container(),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     margin: EdgeInsets.only(top: 10),
                     padding: EdgeInsets.only(left: 20, right: 20),
                     child: Text(
-                      "3 days left to respond",
+                      isPendingClose ? "3 days left" : "3 days left to respond",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           color: mainColor,
@@ -1093,64 +1101,86 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-                  Container(
-                    margin:
-                        EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 10),
-                    padding: EdgeInsets.only(
-                        left: 20, right: 20, top: 15, bottom: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(24),
-                          decoration: BoxDecoration(
-                              color: selectedColor,
-                              image: DecorationImage(
-                                  image: AssetImage("assets/image/baby4.png"),
-                                  fit: BoxFit.cover),
-                              borderRadius: BorderRadius.circular(100)),
-                          height: 33,
-                          width: 33,
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    "Abigail Mile's",
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: mainColor.withOpacity(0.6),
-                                        fontSize: 10,
-                                        fontFamily: "quicksand",
-                                        fontWeight: FontWeight.w600),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => YourProfilePage()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 0, right: 0, top: 0, bottom: 10),
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 15, bottom: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                                color: selectedColor,
+                                image: DecorationImage(
+                                    image: AssetImage("assets/image/baby4.png"),
+                                    fit: BoxFit.cover),
+                                borderRadius: BorderRadius.circular(100)),
+                            height: 33,
+                            width: 33,
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      "Abigail Miles",
+                                      textAlign: TextAlign.start,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          color: mainColor.withOpacity(0.6),
+                                          fontSize: 10,
+                                          fontFamily: "quicksand",
+                                          fontWeight: FontWeight.w600),
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Text(
-                                    "Foster Parent -12 yo",
-                                    textAlign: TextAlign.start,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: mainColor,
-                                        fontSize: 8,
-                                        fontFamily: "quicksand",
-                                        fontWeight: FontWeight.w500),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 5),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Text(
+                                          "Foster Parent",
+                                          textAlign: TextAlign.start,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: mainColor,
+                                              fontSize: 8,
+                                              fontFamily: "quicksand",
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        // Text(
+                                        //   " - 12 yo",
+                                        //   textAlign: TextAlign.start,
+                                        //   overflow: TextOverflow.ellipsis,
+                                        //   style: TextStyle(
+                                        //       color: mainColor,
+                                        //       fontSize: 8,
+                                        //       fontFamily: "quicksand",
+                                        //       fontWeight: FontWeight.w500),
+                                        // ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -1270,7 +1300,7 @@ class _HomePageState extends State<HomePage> {
                                   Container(
                                     margin: EdgeInsets.only(top: 5),
                                     child: Text(
-                                      "Pending",
+                                      "Adoptive Placement - 10 yo",
                                       textAlign: TextAlign.start,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
@@ -1295,6 +1325,139 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future<Null> _showCaseDialog(number) async {
+    return showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            title: Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(5),
+                        topLeft: Radius.circular(5),
+                      ),
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(top: 20),
+                  child: Container(
+                      width: 55,
+                      height: 55,
+                      margin: EdgeInsets.all(15),
+                      child: Image.asset(number == 1
+                          ? "assets/image/accept_removal.png"
+                          : "assets/image/accept_close.png")),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(bottom: 10, top: 10),
+                  child: Text(
+                    "Are you sure?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        color: Color(0xff003A5B),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 19),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                  child: Text(
+                    number == 1
+                        ? "Do you really want to leave this case? You will not be able to join again without requesting to join."
+                        : "You are agreeing to close this case. You will not be able to change your response.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        color: Color(0xff7A98A9),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 11),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
+                      ),
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            width: 100,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.only(
+                                top: 0, bottom: 20, left: 0, right: 2.5),
+                            decoration: BoxDecoration(
+                              color: Color(0xffF8F8F8),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Text("Cancel",
+                                style: TextStyle(
+                                    color: Color(0xff003A5B),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "quicksand"))),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            if (number == 1) {
+                              _showRemovalDialog(1);
+                            } else {
+                              _showCloseDialog(1);
+                            }
+                          },
+                          child: Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.only(
+                                  top: 0, bottom: 20, left: 2.5, right: 0),
+                              decoration: BoxDecoration(
+                                color: Color(0xffF9423A),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Text(number == 1 ? "Leave" : "Accept",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "quicksand"))),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 
   Future<Null> _showRemovalDialog(number) async {
@@ -1334,7 +1497,7 @@ class _HomePageState extends State<HomePage> {
                       border: Border.all(color: Colors.white)),
                   padding: EdgeInsets.only(bottom: 10, top: 10),
                   child: Text(
-                    number == 1 ? "You have left the case" : "Removal pending",
+                    number == 1 ? "You have left the case" : "Reject Removal",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'quicksand',
@@ -1352,7 +1515,7 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     number == 1
                         ? "You have successfully left the case and will no longer have access to it. If this was a mistake, you will have to request to join again or be invited."
-                        : "Removal of Jill Smith is pending. Jill will have up to 7 days to reject this action.",
+                        : "Removal rejected” as the header, and “You are still part of this case. Check with Jill Smith to see if your removal suggestion was made by mistake.",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: 'quicksand',
@@ -1361,90 +1524,33 @@ class _HomePageState extends State<HomePage> {
                         fontSize: 11),
                   ),
                 ),
-                number == 1
-                    ? GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(color: Colors.white)),
-                          child: Container(
-                              width: 100,
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.only(
-                                  top: 0, bottom: 20, left: 50, right: 50),
-                              decoration: BoxDecoration(
-                                color: selectedColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Text("Done",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w500,
-                                      fontFamily: "quicksand"))),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.white)),
+                    child: Container(
+                        width: 100,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(
+                            top: 0, bottom: 20, left: 50, right: 50),
+                        decoration: BoxDecoration(
+                          color: selectedColor,
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                      )
-                    : GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5),
-                                bottomLeft: Radius.circular(5),
-                              ),
-                              border: Border.all(color: Colors.white)),
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                  width: 100,
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.all(10),
-                                  margin: EdgeInsets.only(
-                                      top: 0, bottom: 20, left: 0, right: 2.5),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xffF8F8F8),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Text("Cancel",
-                                      style: TextStyle(
-                                          color: Color(0xff003A5B),
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: "quicksand"))),
-                              Expanded(
-                                child: Container(
-                                    alignment: Alignment.center,
-                                    padding: EdgeInsets.all(10),
-                                    margin: EdgeInsets.only(
-                                        top: 0,
-                                        bottom: 20,
-                                        left: 2.5,
-                                        right: 0),
-                                    decoration: BoxDecoration(
-                                      color: Color(0xffF9423A),
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    child: Text("Reject",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w500,
-                                            fontFamily: "quicksand"))),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                        child: Text("Done",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "quicksand"))),
+                  ),
+                ),
               ],
             ),
           );
@@ -1518,6 +1624,9 @@ class _HomePageState extends State<HomePage> {
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
+                    setState(() {
+                      isPendingClose = true;
+                    });
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width,

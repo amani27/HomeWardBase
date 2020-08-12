@@ -33,7 +33,7 @@ class _RaceSeeAllState extends State<RaceSeeAll> {
                   Navigator.pop(context);
                 },
                 child: Container(
-                    padding: EdgeInsets.all(5),
+                    padding: EdgeInsets.all(10),
                     margin: EdgeInsets.only(right: 0, left: 0),
                     child: Icon(Icons.close, color: Colors.black, size: 17)),
               ),
@@ -57,7 +57,7 @@ class _RaceSeeAllState extends State<RaceSeeAll> {
                   });
                 },
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(0),
                   margin: EdgeInsets.only(right: 0, left: 0),
                   child: Center(
                       child: Text(

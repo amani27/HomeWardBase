@@ -69,7 +69,7 @@ class _LanguageSeeAllState extends State<LanguageSeeAll> {
                   });
                 },
                 child: Container(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(0),
                   margin: EdgeInsets.only(right: 0, left: 0),
                   child: Center(
                       child: Text(

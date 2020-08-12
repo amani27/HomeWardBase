@@ -71,7 +71,7 @@ class _NoCaseFoundPageState extends State<NoCaseFoundPage> {
             Container(
               margin: EdgeInsets.only(left: 22, right: 40, top: 10, bottom: 40),
               child: Text(
-                "it doesn't look like we could locate a case that matched that information.",
+                "It doesn't look like we could locate a case that matched that information.",
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                     color: Color(0xff003A5B),

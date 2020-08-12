@@ -45,7 +45,16 @@ class _AddMemberPageState extends State<AddMemberPage> {
         ),
         actions: <Widget>[
           Container(
-            child: Icon(Icons.ac_unit),
+            padding: EdgeInsets.all(0),
+            margin: EdgeInsets.only(right: 0, left: 0),
+            child: Text(
+              "Cancel",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontFamily: "quicksand",
+                  fontWeight: FontWeight.w400),
+            ),
           )
         ],
       ),
@@ -208,17 +217,25 @@ class _AddMemberPageState extends State<AddMemberPage> {
               ),
             ),
             widget.data == 1
-                ? Container(
-                    margin: EdgeInsets.only(
-                        left: 22, right: 40, top: 0, bottom: 20),
-                    child: Text(
-                      "Skip",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          color: Color(0xff003A5B),
-                          fontFamily: "quicksand",
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400),
+                ? GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context, 
+                          MaterialPageRoute(
+                              builder: (context) => CaseCreatedPage()));
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 22, right: 40, top: 0, bottom: 20),
+                      child: Text(
+                        "Skip",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            color: Color(0xff003A5B),
+                            fontFamily: "quicksand",
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400),
+                      ),
                     ),
                   )
                 : Container(),
