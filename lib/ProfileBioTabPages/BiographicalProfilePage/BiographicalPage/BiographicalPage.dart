@@ -5,6 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:homewardbase/AddPlacementPage/AddPlacementPage.dart';
+import 'package:homewardbase/ProfileBioPage/ProfileBioPage.dart';
 
 import '../../../main.dart';
 
@@ -40,14 +41,14 @@ class _BiographicalPageState extends State<BiographicalPage> {
   ];
 
   List documentList = [
-    {
-      'type': 'security',
-      'name': 'Social Security Card',
-    },
-    {
-      'type': 'birth',
-      'name': 'Birth Certificate',
-    },
+    // {
+    //   'type': 'security',
+    //   'name': 'Social Security Card',
+    // },
+    // {
+    //   'type': 'birth',
+    //   'name': 'Birth Certificate',
+    // },
   ];
 
   List siblings = [
@@ -134,6 +135,12 @@ class _BiographicalPageState extends State<BiographicalPage> {
     },
   ];
 
+  List listData = [];
+
+  List arrPeople = [
+    "Select People From List",
+  ];
+
   bool isEditOpen = false;
   bool isDocAvailable = false;
   bool isPlacementAvailable = false;
@@ -143,11 +150,40 @@ class _BiographicalPageState extends State<BiographicalPage> {
   bool isDocumentPressed = false;
   bool isDocItemPressed = false;
 
-  String interests = "", doc = "", path = "";
+  String interests = "", doc = "", path = "", valPeople = "";
   TextEditingController interestsController = new TextEditingController();
   TextEditingController docController = new TextEditingController();
 
+  List<DropdownMenuItem<String>> _dropDownPeopleItems;
+
   File file;
+
+  List<DropdownMenuItem<String>> getDropDownPeopleItems() {
+    ////////drop down button
+    List<DropdownMenuItem<String>> items = new List();
+    for (String peopleList in arrPeople) {
+      items.add(new DropdownMenuItem(
+          value: peopleList,
+          child: new Text(
+            peopleList,
+            textAlign: TextAlign.start,
+            style: TextStyle(
+                color: mainColor,
+                fontFamily: 'quicksand',
+                fontSize: 12,
+                fontWeight: FontWeight.w500),
+          )));
+    }
+    return items;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _dropDownPeopleItems = getDropDownPeopleItems();
+    valPeople = _dropDownPeopleItems[0].value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -193,8 +229,7 @@ class _BiographicalPageState extends State<BiographicalPage> {
                                         color: mainColor,
                                         borderRadius:
                                             BorderRadius.circular(100),
-                                        border:
-                                            Border.all(color: selectedColor)),
+                                        border: Border.all(color: mainColor)),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -820,7 +855,8 @@ class _BiographicalPageState extends State<BiographicalPage> {
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    isDocAvailable = true;
+                                    // isDocAvailable = true;
+                                    _showUploadDocDialog();
                                   });
                                 },
                                 child: Container(
@@ -1237,14 +1273,21 @@ class _BiographicalPageState extends State<BiographicalPage> {
                           ),
                           isEditOpen == false
                               ? Container()
-                              : Text(
-                                  "+ Add People",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: selectedColor,
-                                      fontSize: 11,
-                                      fontFamily: "quicksand",
-                                      fontWeight: FontWeight.w500),
+                              : GestureDetector(
+                                  onTap: () {
+                                    _showAddPeopleDialog();
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      "+ Add People",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: selectedColor,
+                                          fontSize: 11,
+                                          fontFamily: "quicksand",
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
                                 ),
                         ],
                       ),
@@ -2050,6 +2093,17 @@ class _BiographicalPageState extends State<BiographicalPage> {
                               fontFamily: "quicksand",
                               fontWeight: FontWeight.w500),
                         ),
+                        isEditOpen == false
+                            ? Container()
+                            : Text(
+                                "+ Add Kinship",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: selectedColor,
+                                    fontSize: 11,
+                                    fontFamily: "quicksand",
+                                    fontWeight: FontWeight.w500),
+                              ),
                       ],
                     ),
                   ),
@@ -2562,14 +2616,24 @@ class _BiographicalPageState extends State<BiographicalPage> {
                               fontFamily: "quicksand",
                               fontWeight: FontWeight.w500),
                         ),
-                        Text(
-                          "See More",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: selectedColor,
-                              fontSize: 11,
-                              fontFamily: "quicksand",
-                              fontWeight: FontWeight.w500),
+                        GestureDetector(
+                          onTap: () {
+                            menuSelected = 4;
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileBioPage()));
+                          },
+                          child: Text(
+                            "See More",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: selectedColor,
+                                fontSize: 11,
+                                fontFamily: "quicksand",
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ],
                     ),
@@ -3036,6 +3100,293 @@ class _BiographicalPageState extends State<BiographicalPage> {
               ],
             ),
           );
+        });
+  }
+
+  Future<Null> _showAddPeopleDialog() async {
+    return showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              content: StatefulBuilder(builder: (context, setState) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Column(
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10),
+                                topRight: Radius.circular(10),
+                              )),
+                          padding: EdgeInsets.only(bottom: 10, top: 20),
+                          child: Text(
+                            "Add people",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'quicksand',
+                                color: mainColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 17),
+                          ),
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              border:
+                                  Border.all(color: Colors.grey, width: 0.15),
+                              borderRadius: BorderRadius.circular(5)),
+                          margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+                          padding: EdgeInsets.only(top: 5, bottom: 5, right: 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: 12, right: 10, top: 5),
+                                child: Text(
+                                  "Add People",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      color: Color(0xff7A98A9),
+                                      fontSize: 10,
+                                      fontFamily: 'quicksand',
+                                      fontWeight: FontWeight.w400),
+                                ),
+                              ),
+                              Container(
+                                height: 33,
+                                padding: EdgeInsets.only(left: 12, right: 12),
+                                child: DropdownButtonHideUnderline(
+                                  child: Container(
+                                    child: DropdownButton(
+                                      //icon: Icon(Icons.arrow_drop_down),
+                                      isExpanded: true,
+                                      // iconDisabledColor:
+                                      //     Color(0xFF008990),
+                                      iconEnabledColor: Color(0xff003A5B),
+                                      // iconSize: 40,
+
+                                      //hint: Text('Select Situation'),
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xff003A5B),
+                                      ),
+                                      value: valPeople,
+                                      items: _dropDownPeopleItems,
+                                      icon: Icon(
+                                        Icons.expand_more,
+                                        size: 15,
+                                        color: Color(0xff707070),
+                                      ),
+                                      onChanged: (String value) {
+                                        setState(() {
+                                          valPeople = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: 20, top: 5, bottom: 10, right: 20),
+                          padding: EdgeInsets.all(5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    listData.add({
+                                      'data': '',
+                                    });
+                                  });
+                                },
+                                child: Container(
+                                  child: Text(
+                                    "or invite by email",
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                        fontFamily: 'quicksand',
+                                        color: selectedColor,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                              ),
+                              listData.length == 0
+                                  ? Container()
+                                  : GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          listData.add({
+                                            'data': '',
+                                          });
+                                        });
+                                      },
+                                      child: Container(
+                                        child: Text(
+                                          "+ Invite More",
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                              fontFamily: 'quicksand',
+                                              color: mainColor,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12),
+                                        ),
+                                      ),
+                                    ),
+                            ],
+                          ),
+                        ),
+                        listData.length == 0
+                            ? Container()
+                            : Container(
+                                child: Column(
+                                  children:
+                                      List.generate(listData.length, (index) {
+                                    return Container(
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                                color: Colors.grey,
+                                                width: 0.15),
+                                            borderRadius:
+                                                BorderRadius.circular(5)),
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        margin: EdgeInsets.only(
+                                            left: 20, right: 20, top: 5),
+                                        padding: EdgeInsets.only(
+                                            top: 15, bottom: 5, right: 10),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Flexible(
+                                              child: TextField(
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    listData[index]['data'] =
+                                                        value;
+                                                  });
+                                                },
+                                                autofocus: false,
+                                                style: TextStyle(
+                                                    color: mainColor,
+                                                    fontSize: 12,
+                                                    fontFamily: 'quicksand',
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                                decoration: InputDecoration(
+                                                  hintText: "Enter Email",
+                                                  hintStyle: TextStyle(
+                                                      color: mainColor,
+                                                      fontSize: 12,
+                                                      fontFamily: 'quicksand',
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                  labelStyle: TextStyle(
+                                                      color: Color(0xff7A98A9),
+                                                      fontSize: 10,
+                                                      fontFamily: 'quicksand',
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                  labelText: "Email",
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          12.0, 0, 12.0, 0),
+                                                  border: InputBorder.none,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ));
+                                  }),
+                                ),
+                              ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(10),
+                                bottomLeft: Radius.circular(10),
+                              ),
+                              border: Border.all(color: Colors.white)),
+                          padding:
+                              EdgeInsets.only(left: 20, right: 20, top: 20),
+                          child: Row(
+                            children: <Widget>[
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                    width: 100,
+                                    alignment: Alignment.center,
+                                    padding: EdgeInsets.all(10),
+                                    margin: EdgeInsets.only(
+                                        top: 0,
+                                        bottom: 20,
+                                        left: 0,
+                                        right: 2.5),
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffF8F8F8),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Text("Cancel",
+                                        style: TextStyle(
+                                            color: Color(0xff003A5B),
+                                            fontSize: 11,
+                                            fontWeight: FontWeight.w500,
+                                            fontFamily: "quicksand"))),
+                              ),
+                              Expanded(
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Container(
+                                      alignment: Alignment.center,
+                                      padding: EdgeInsets.all(10),
+                                      margin: EdgeInsets.only(
+                                          top: 0,
+                                          bottom: 20,
+                                          left: 2.5,
+                                          right: 0),
+                                      decoration: BoxDecoration(
+                                        color: selectedColor,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: Text("Proceed",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w500,
+                                              fontFamily: "quicksand"))),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }));
         });
   }
 
@@ -3771,6 +4122,7 @@ class _BiographicalPageState extends State<BiographicalPage> {
                                             onTap: () {
                                               setState(() {
                                                 isDocumentPressed = true;
+                                                isDocAvailable = true;
                                               });
                                               Timer(Duration(seconds: 3), () {
                                                 Navigator.pop(context);

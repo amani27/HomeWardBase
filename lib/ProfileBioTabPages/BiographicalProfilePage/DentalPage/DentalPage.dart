@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homewardbase/ProfileBioPage/ProfileBioPage.dart';
 
 import '../../../main.dart';
 
@@ -119,8 +120,7 @@ class _DentalPageState extends State<DentalPage> {
                                         color: mainColor,
                                         borderRadius:
                                             BorderRadius.circular(100),
-                                        border:
-                                            Border.all(color: selectedColor)),
+                                        border: Border.all(color: mainColor)),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -335,7 +335,8 @@ class _DentalPageState extends State<DentalPage> {
                                             SizedBox(height: 7),
                                             Container(
                                               child: Row(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: <Widget>[
                                                   Icon(
                                                     Icons.location_on,
@@ -345,11 +346,13 @@ class _DentalPageState extends State<DentalPage> {
                                                   Expanded(
                                                     child: Text(
                                                       "${doctorList[index]['address']}",
-                                                      textAlign: TextAlign.start,
+                                                      textAlign:
+                                                          TextAlign.start,
                                                       style: TextStyle(
                                                           color: mainColor,
                                                           fontSize: 12,
-                                                          fontFamily: "quicksand",
+                                                          fontFamily:
+                                                              "quicksand",
                                                           fontWeight:
                                                               FontWeight.w400),
                                                     ),
@@ -680,14 +683,24 @@ class _DentalPageState extends State<DentalPage> {
                               fontFamily: "quicksand",
                               fontWeight: FontWeight.w500),
                         ),
-                        Text(
-                          "See More",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: selectedColor,
-                              fontSize: 11,
-                              fontFamily: "quicksand",
-                              fontWeight: FontWeight.w500),
+                        GestureDetector(
+                          onTap: () {
+                            menuSelected = 4;
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileBioPage()));
+                          },
+                          child: Text(
+                            "See More",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: selectedColor,
+                                fontSize: 11,
+                                fontFamily: "quicksand",
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ],
                     ),

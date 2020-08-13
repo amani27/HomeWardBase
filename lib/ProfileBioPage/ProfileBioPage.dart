@@ -21,7 +21,13 @@ class ProfileBioPage extends StatefulWidget {
 }
 
 class _ProfileBioPageState extends State<ProfileBioPage> {
-  int menuSelected = 0;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    //menuSelected = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -235,17 +241,20 @@ class _ProfileBioPageState extends State<ProfileBioPage> {
                                                           100)),
                                               height: 20,
                                               //width: 20,
-                                              child: Center(
-                                                child: Text(
-                                                  "0",
-                                                  style: TextStyle(
-                                                      fontFamily: 'quicksand',
-                                                      color: Color(0xffffffff),
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 8),
-                                                ),
-                                              ),
+                                              // child: Center(
+                                              //   child: Text(
+                                              //     "0",
+                                              //     style: TextStyle(
+                                              //         fontFamily: 'quicksand',
+                                              //         color: Color(0xffffffff),
+                                              //         fontWeight:
+                                              //             FontWeight.bold,
+                                              //         fontSize: 8),
+                                              //   ),
+                                              // ),
+                                              child: Icon(Icons.notifications,
+                                                  size: 12,
+                                                  color: Colors.white),
                                             ),
                                     ],
                                   ),

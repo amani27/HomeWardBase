@@ -22,6 +22,7 @@ class _AddPlacementPageState extends State<AddPlacementPage> {
   List<DropdownMenuItem<String>> _dropDownTypeItems;
   List<DropdownMenuItem<String>> _dropDownPeopleItems;
   List arrType = [
+    "Select Placement",
     "Adoptive Placement",
   ];
 
@@ -34,12 +35,12 @@ class _AddPlacementPageState extends State<AddPlacementPage> {
   @override
   initState() {
     super.initState();
-    nameController.text = "Adoptive Placement";
-    addressController.text =
-        "1395 Weekley Street Suite B Saint Albans, NY 11412";
-    datePlacedController.text = "12 Days";
-    phoneController.text = "(123) 456-7890";
-    emailController.text = "testing@ultranesia.com";
+    // nameController.text = "Adoptive Placement";
+    // addressController.text =
+    //     "1395 Weekley Street Suite B Saint Albans, NY 11412";
+    // datePlacedController.text = "12 Days";
+    // phoneController.text = "(123) 456-7890";
+    // emailController.text = "testing@ultranesia.com";
 
     _dropDownTypeItems = getDropDownTypeItems();
     valType = _dropDownTypeItems[0].value;
@@ -58,7 +59,9 @@ class _AddPlacementPageState extends State<AddPlacementPage> {
             typeList,
             textAlign: TextAlign.end,
             style: TextStyle(
-                color: mainColor,
+                color: typeList == "Select Placement"
+                    ? mainColor.withOpacity(0.6)
+                    : mainColor,
                 fontFamily: 'quicksand',
                 fontSize: 15,
                 fontWeight: FontWeight.w500),

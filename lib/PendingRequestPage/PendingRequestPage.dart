@@ -93,21 +93,26 @@ class _PendingRequestPageState extends State<PendingRequestPage> {
                         height: 47,
                         width: 47,
                       )),
-                  Container(
-                    margin: EdgeInsets.only(right: 20),
-                    padding:
-                        EdgeInsets.only(top: 5, bottom: 5, left: 14, right: 14),
-                    decoration: BoxDecoration(
-                        color: selectedColor,
-                        borderRadius: BorderRadius.circular(5)),
-                    child: Text(
-                      "Withdrawal request",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 9,
-                          fontFamily: "quicksand",
-                          fontWeight: FontWeight.w600),
+                  GestureDetector(
+                    onTap: () {
+                      _showWithdrawDialog();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(right: 20),
+                      padding: EdgeInsets.only(
+                          top: 5, bottom: 5, left: 14, right: 14),
+                      decoration: BoxDecoration(
+                          color: selectedColor,
+                          borderRadius: BorderRadius.circular(5)),
+                      child: Text(
+                        "Withdrawal request",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontFamily: "quicksand",
+                            fontWeight: FontWeight.w600),
+                      ),
                     ),
                   )
                 ],
@@ -499,5 +504,223 @@ class _PendingRequestPageState extends State<PendingRequestPage> {
         ),
       ),
     );
+  }
+
+  Future<Null> _showWithdrawDialog() async {
+    return showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            title: Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(5),
+                        topLeft: Radius.circular(5),
+                      ),
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(top: 20),
+                  child: Container(
+                      width: 55,
+                      height: 55,
+                      margin: EdgeInsets.all(15),
+                      child: Image.asset("assets/image/accept_removal.png")),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(bottom: 10, top: 10),
+                  child: Text(
+                    "Are you sure?",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        color: Color(0xff003A5B),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 19),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                  child: Text(
+                    "If you withdraw this request to join, you will need to make a new request or be invited.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        color: Color(0xff7A98A9),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 11),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
+                      ),
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Row(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                            width: 100,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.only(
+                                top: 0, bottom: 20, left: 0, right: 2.5),
+                            decoration: BoxDecoration(
+                              color: Color(0xffF8F8F8),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: Text("Cancel",
+                                style: TextStyle(
+                                    color: Color(0xff003A5B),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500,
+                                    fontFamily: "quicksand"))),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                            _showDoneDialog();
+                          },
+                          child: Container(
+                              alignment: Alignment.center,
+                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsets.only(
+                                  top: 0, bottom: 20, left: 2.5, right: 0),
+                              decoration: BoxDecoration(
+                                color: Color(0xffF9423A),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Text("Withdraw request",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: "quicksand"))),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  Future<Null> _showDoneDialog() async {
+    return showDialog<Null>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return new AlertDialog(
+            elevation: 0,
+            backgroundColor: Colors.transparent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            title: Column(
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(5),
+                        topLeft: Radius.circular(5),
+                      ),
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(top: 20),
+                  child: Container(
+                      width: 55,
+                      height: 55,
+                      margin: EdgeInsets.all(15),
+                      child: Image.asset("assets/image/reject_removal.png")),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(bottom: 10, top: 10),
+                  child: Text(
+                    "Request withdrawn",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        color: Color(0xff003A5B),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 19),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(color: Colors.white)),
+                  padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                  child: Text(
+                    "Your request to join this case has been withdrawn. If you would like to join, you will need to submit another request or be invited.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: 'quicksand',
+                        color: Color(0xff7A98A9),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 11),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: Colors.white)),
+                    child: Container(
+                        width: 100,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(
+                            top: 0, bottom: 20, left: 50, right: 50),
+                        decoration: BoxDecoration(
+                          color: selectedColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Text("Done",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
+                                fontFamily: "quicksand"))),
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
   }
 }

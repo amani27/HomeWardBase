@@ -11,37 +11,41 @@ class FilterPage extends StatefulWidget {
 }
 
 class _FilterPageState extends State<FilterPage> {
-  double st = 0.0, end = 13.0;
+  double st = 0.0, end = 25.0;
   double minValue = 0.0;
   double maxValue = 25.0;
   int startingAge = 0,
       endingAge = 0,
-      typeIndex,
-      gender = 1,
-      ethnicity = 1,
-      siblings = 1,
-      siblingAge = 0,
-      parentRight = 1;
+      typeIndex = -1,
+      gender = -1,
+      ethnicity = -1,
+      siblings = -1,
+      siblingAge = -1,
+      parentRight = -1;
 
   List adaptiveType = [
-    {"name": "Foster"},
-    {"name": "Adoptive"},
-    {"name": "Residential"},
-    {"name": "Emergency"},
-    {"name": "Kinship"},
+    {"name": "Foster", "status": 0},
+    {"name": "Adoptive", "status": 0},
+    {"name": "Residential", "status": 0},
+    {"name": "Emergency", "status": 0},
+    {"name": "Kinship", "status": 0},
   ];
+
+  List ethnicityList = [];
+  List parentalList = [];
+  List siblingAgeList = [];
 
   @override
   void initState() {
     super.initState();
 
-    if (adaptiveType.length != 0) {
-      if (adaptiveType.length == 1) {
-        typeIndex = 0;
-      } else {
-        typeIndex = 1;
-      }
-    }
+    // if (adaptiveType.length != 0) {
+    //   if (adaptiveType.length == 1) {
+    //     typeIndex = 0;
+    //   } else {
+    //     typeIndex = 1;
+    //   }
+    // }
   }
 
   @override
@@ -90,21 +94,28 @@ class _FilterPageState extends State<FilterPage> {
                 onTap: () {
                   setState(() {
                     st = 0.0;
-                    end = 13.0;
-                    if (adaptiveType.length != 0) {
-                      if (adaptiveType.length == 1) {
-                        typeIndex = 0;
-                      } else {
-                        typeIndex = 1;
-                      }
-                    }
-                    gender = 1;
+                    end = 25.0;
+                    // if (adaptiveType.length != 0) {
+                    //   if (adaptiveType.length == 1) {
+                    //     typeIndex = 0;
+                    //   } else {
+                    //     typeIndex = 1;
+                    //   }
+                    // }
+                    gender = -1;
                     listLanguage = [];
                     listRace = [];
-                    ethnicity = 1;
-                    siblings = 1;
-                    siblingAge = 0;
-                    parentRight = 1;
+                    ethnicity = -1;
+                    siblings = -1;
+                    siblingAge = -1;
+                    parentRight = -1;
+                    typeIndex = -1;
+                    for (int i = 0; i < adaptiveType.length; i++) {
+                      adaptiveType[i]['status'] = 0;
+                    }
+                    ethnicityList = [];
+                    parentalList = [];
+                    siblingAgeList = [];
                   });
                 },
                 child: Container(
@@ -255,7 +266,12 @@ class _FilterPageState extends State<FilterPage> {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
-                      typeIndex = index;
+                      //typeIndex = index;
+                      if (adaptiveType[index]['status'] == 0) {
+                        adaptiveType[index]['status'] = 1;
+                      } else {
+                        adaptiveType[index]['status'] = 0;
+                      }
                     });
                   },
                   child: Container(
@@ -265,18 +281,19 @@ class _FilterPageState extends State<FilterPage> {
                           top: 5, bottom: 5, left: 17, right: 17),
                       margin: EdgeInsets.only(top: 0),
                       decoration: BoxDecoration(
-                          color:
-                              typeIndex == index ? selectedColor : Colors.white,
+                          color: adaptiveType[index]['status'] == 1
+                              ? selectedColor
+                              : Colors.white,
                           borderRadius: BorderRadius.circular(5),
                           border: Border.all(
-                              color: typeIndex == index
+                              color: adaptiveType[index]['status'] == 1
                                   ? selectedColor
                                   : Color(0xfff1f1f1))),
                       child: Text(
                         "${adaptiveType[index]['name']}",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: typeIndex == index
+                            color: adaptiveType[index]['status'] == 1
                                 ? Colors.white
                                 : Color(0xff333333),
                             fontSize: 14,
@@ -592,7 +609,11 @@ class _FilterPageState extends State<FilterPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          ethnicity = 0;
+                          if (ethnicityList.contains("Hispanic")) {
+                            ethnicityList.remove("Hispanic");
+                          } else {
+                            ethnicityList.add("Hispanic");
+                          }
                         });
                       },
                       child: Container(
@@ -602,18 +623,19 @@ class _FilterPageState extends State<FilterPage> {
                               top: 5, bottom: 5, left: 17, right: 17),
                           margin: EdgeInsets.only(top: 0),
                           decoration: BoxDecoration(
-                              color:
-                                  ethnicity == 0 ? selectedColor : Colors.white,
+                              color: ethnicityList.contains("Hispanic")
+                                  ? selectedColor
+                                  : Colors.white,
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  color: ethnicity == 0
+                                  color: ethnicityList.contains("Hispanic")
                                       ? selectedColor
                                       : Color(0xfff1f1f1))),
                           child: Text(
                             "Hispanic",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: ethnicity == 0
+                                color: ethnicityList.contains("Hispanic")
                                     ? Colors.white
                                     : Color(0xff333333),
                                 fontSize: 14,
@@ -628,7 +650,11 @@ class _FilterPageState extends State<FilterPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          ethnicity = 1;
+                          if (ethnicityList.contains("Non-hispanic")) {
+                            ethnicityList.remove("Non-hispanic");
+                          } else {
+                            ethnicityList.add("Non-hispanic");
+                          }
                         });
                       },
                       child: Container(
@@ -638,18 +664,19 @@ class _FilterPageState extends State<FilterPage> {
                               top: 5, bottom: 5, left: 17, right: 17),
                           margin: EdgeInsets.only(top: 0),
                           decoration: BoxDecoration(
-                              color:
-                                  ethnicity == 1 ? selectedColor : Colors.white,
+                              color: ethnicityList.contains("Non-hispanic")
+                                  ? selectedColor
+                                  : Colors.white,
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  color: ethnicity == 1
+                                  color: ethnicityList.contains("Non-hispanic")
                                       ? selectedColor
                                       : Color(0xfff1f1f1))),
                           child: Text(
                             "Non-hispanic",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: ethnicity == 1
+                                color: ethnicityList.contains("Non-hispanic")
                                     ? Colors.white
                                     : Color(0xff333333),
                                 fontSize: 14,
@@ -685,6 +712,7 @@ class _FilterPageState extends State<FilterPage> {
                       onTap: () {
                         setState(() {
                           siblings = 0;
+                          siblingAgeList = [];
                         });
                       },
                       child: Container(
@@ -721,6 +749,7 @@ class _FilterPageState extends State<FilterPage> {
                       onTap: () {
                         setState(() {
                           siblings = 1;
+                          siblingAgeList = [];
                         });
                       },
                       child: Container(
@@ -768,13 +797,17 @@ class _FilterPageState extends State<FilterPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          siblingAge = 0;
+                          if (siblingAgeList.contains("0")) {
+                            siblingAgeList.remove("0");
+                          } else {
+                            siblingAgeList.add("0");
+                          }
                         });
                       },
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: siblingAge == 0
+                          color: siblingAgeList.contains("0")
                               ? selectedColor
                               : Color(0xffF6F4F4),
                           borderRadius: BorderRadius.circular(5),
@@ -783,7 +816,9 @@ class _FilterPageState extends State<FilterPage> {
                           "0",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: siblingAge == 0 ? Colors.white : mainColor,
+                              color: siblingAgeList.contains("0")
+                                  ? Colors.white
+                                  : mainColor,
                               fontSize: 12,
                               fontFamily: "quicksand",
                               fontWeight: FontWeight.w500),
@@ -795,13 +830,17 @@ class _FilterPageState extends State<FilterPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          siblingAge = 1;
+                          if (siblingAgeList.contains("1")) {
+                            siblingAgeList.remove("1");
+                          } else {
+                            siblingAgeList.add("1");
+                          }
                         });
                       },
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: siblingAge == 1
+                          color: siblingAgeList.contains("1")
                               ? selectedColor
                               : Color(0xffF6F4F4),
                           borderRadius: BorderRadius.circular(5),
@@ -810,7 +849,9 @@ class _FilterPageState extends State<FilterPage> {
                           "1",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: siblingAge == 1 ? Colors.white : mainColor,
+                              color: siblingAgeList.contains("1")
+                                  ? Colors.white
+                                  : mainColor,
                               fontSize: 12,
                               fontFamily: "quicksand",
                               fontWeight: FontWeight.w500),
@@ -822,13 +863,17 @@ class _FilterPageState extends State<FilterPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          siblingAge = 2;
+                          if (siblingAgeList.contains("2")) {
+                            siblingAgeList.remove("2");
+                          } else {
+                            siblingAgeList.add("2");
+                          }
                         });
                       },
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: siblingAge == 2
+                          color: siblingAgeList.contains("2")
                               ? selectedColor
                               : Color(0xffF6F4F4),
                           borderRadius: BorderRadius.circular(5),
@@ -837,7 +882,9 @@ class _FilterPageState extends State<FilterPage> {
                           "2",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: siblingAge == 2 ? Colors.white : mainColor,
+                              color: siblingAgeList.contains("2")
+                                  ? Colors.white
+                                  : mainColor,
                               fontSize: 12,
                               fontFamily: "quicksand",
                               fontWeight: FontWeight.w500),
@@ -849,13 +896,17 @@ class _FilterPageState extends State<FilterPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          siblingAge = 3;
+                          if (siblingAgeList.contains("3+")) {
+                            siblingAgeList.remove("3+");
+                          } else {
+                            siblingAgeList.add("3+");
+                          }
                         });
                       },
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: siblingAge == 3
+                          color: siblingAgeList.contains("3+")
                               ? selectedColor
                               : Color(0xffF6F4F4),
                           borderRadius: BorderRadius.circular(5),
@@ -864,7 +915,9 @@ class _FilterPageState extends State<FilterPage> {
                           "3+",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: siblingAge == 3 ? Colors.white : mainColor,
+                              color: siblingAgeList.contains("3+")
+                                  ? Colors.white
+                                  : mainColor,
                               fontSize: 12,
                               fontFamily: "quicksand",
                               fontWeight: FontWeight.w500),
@@ -896,7 +949,11 @@ class _FilterPageState extends State<FilterPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          parentRight = 0;
+                          if (parentalList.contains("Terminated")) {
+                            parentalList.remove("Terminated");
+                          } else {
+                            parentalList.add("Terminated");
+                          }
                         });
                       },
                       child: Container(
@@ -906,19 +963,19 @@ class _FilterPageState extends State<FilterPage> {
                               top: 5, bottom: 5, left: 17, right: 17),
                           margin: EdgeInsets.only(top: 0),
                           decoration: BoxDecoration(
-                              color: parentRight == 0
+                              color: parentalList.contains("Terminated")
                                   ? selectedColor
                                   : Colors.white,
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  color: parentRight == 0
+                                  color: parentalList.contains("Terminated")
                                       ? selectedColor
                                       : Color(0xfff1f1f1))),
                           child: Text(
                             "Terminated",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: parentRight == 0
+                                color: parentalList.contains("Terminated")
                                     ? Colors.white
                                     : Color(0xff333333),
                                 fontSize: 14,
@@ -933,7 +990,11 @@ class _FilterPageState extends State<FilterPage> {
                     child: GestureDetector(
                       onTap: () {
                         setState(() {
-                          parentRight = 1;
+                          if (parentalList.contains("Not terminated")) {
+                            parentalList.remove("Not terminated");
+                          } else {
+                            parentalList.add("Not terminated");
+                          }
                         });
                       },
                       child: Container(
@@ -943,19 +1004,19 @@ class _FilterPageState extends State<FilterPage> {
                               top: 5, bottom: 5, left: 17, right: 17),
                           margin: EdgeInsets.only(top: 0),
                           decoration: BoxDecoration(
-                              color: parentRight == 1
+                              color: parentalList.contains("Not terminated")
                                   ? selectedColor
                                   : Colors.white,
                               borderRadius: BorderRadius.circular(5),
                               border: Border.all(
-                                  color: parentRight == 1
+                                  color: parentalList.contains("Not terminated")
                                       ? selectedColor
                                       : Color(0xfff1f1f1))),
                           child: Text(
                             "Not terminated",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: parentRight == 1
+                                color: parentalList.contains("Not terminated")
                                     ? Colors.white
                                     : Color(0xff333333),
                                 fontSize: 14,

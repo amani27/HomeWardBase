@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homewardbase/ProfileBioPage/ProfileBioPage.dart';
 
 import '../../../main.dart';
 
@@ -106,8 +107,7 @@ class _EducationPageState extends State<EducationPage> {
                                         color: mainColor,
                                         borderRadius:
                                             BorderRadius.circular(100),
-                                        border:
-                                            Border.all(color: selectedColor)),
+                                        border: Border.all(color: mainColor)),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -397,7 +397,7 @@ class _EducationPageState extends State<EducationPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Container(
-                                    margin: EdgeInsets.only(left:20, top:20),
+                                    margin: EdgeInsets.only(left: 20, top: 20),
                                     child: Row(
                                       children: <Widget>[
                                         Container(
@@ -417,7 +417,8 @@ class _EducationPageState extends State<EducationPage> {
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left:20, top:10, right: 20),
+                                    margin: EdgeInsets.only(
+                                        left: 20, top: 10, right: 20),
                                     child: Row(
                                       children: <Widget>[
                                         Expanded(
@@ -492,14 +493,24 @@ class _EducationPageState extends State<EducationPage> {
                               fontFamily: "quicksand",
                               fontWeight: FontWeight.w500),
                         ),
-                        Text(
-                          "See More",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: selectedColor,
-                              fontSize: 11,
-                              fontFamily: "quicksand",
-                              fontWeight: FontWeight.w500),
+                        GestureDetector(
+                          onTap: () {
+                            menuSelected = 4;
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileBioPage()));
+                          },
+                          child: Text(
+                            "See More",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: selectedColor,
+                                fontSize: 11,
+                                fontFamily: "quicksand",
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ],
                     ),

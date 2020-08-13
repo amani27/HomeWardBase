@@ -14,6 +14,7 @@ Color progColor = Color(0xFF47AAAE);
 
 int bottomNavIndex = 0;
 int addCasePage = 1;
+int menuSelected = 0;
 List listLanguage = [];
 List listRace = [];
 

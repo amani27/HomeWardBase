@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:homewardbase/ProfileBioPage/ProfileBioPage.dart';
 
 import '../../../main.dart';
 
@@ -94,8 +95,7 @@ class _LegalPageState extends State<LegalPage> {
                                         color: mainColor,
                                         borderRadius:
                                             BorderRadius.circular(100),
-                                        border:
-                                            Border.all(color: selectedColor)),
+                                        border: Border.all(color: mainColor)),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -391,14 +391,24 @@ class _LegalPageState extends State<LegalPage> {
                               fontFamily: "quicksand",
                               fontWeight: FontWeight.w500),
                         ),
-                        Text(
-                          "See More",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: selectedColor,
-                              fontSize: 11,
-                              fontFamily: "quicksand",
-                              fontWeight: FontWeight.w500),
+                        GestureDetector(
+                          onTap: () {
+                            menuSelected = 4;
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProfileBioPage()));
+                          },
+                          child: Text(
+                            "See More",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: selectedColor,
+                                fontSize: 11,
+                                fontFamily: "quicksand",
+                                fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ],
                     ),
