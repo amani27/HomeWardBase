@@ -10,7 +10,7 @@ class LogEntryPage extends StatefulWidget {
 class _LogEntryPageState extends State<LogEntryPage> {
   TextEditingController searchController = new TextEditingController();
   TextEditingController descController = new TextEditingController();
-  String search = "", desc = "";
+  String search = "", desc = "", tag = "";
   List tagList = [
     "Visit",
     "Medical",
@@ -20,7 +20,10 @@ class _LogEntryPageState extends State<LogEntryPage> {
     "Legal",
     "Bio",
   ];
+
   List checkedtagList = ["TextField"];
+  List checkedNewtagList = [];
+
   List attachment = [
     "Siblingphoto.png",
     "Casaguidelines.pdf",
@@ -36,6 +39,35 @@ class _LogEntryPageState extends State<LogEntryPage> {
     "Casaguidelines.pdf",
   ];
   bool isAddAttachment = false;
+  List<DropdownMenuItem<String>> _dropDownTagItems;
+
+  List<DropdownMenuItem<String>> getDropDownTagItems() {
+    ////////drop down button
+    List<DropdownMenuItem<String>> items = new List();
+    for (String tagsList in tagList) {
+      items.add(new DropdownMenuItem(
+          value: tagsList,
+          child: new Text(
+            tagsList,
+            textAlign: TextAlign.end,
+            style: TextStyle(
+                color: Color(0xff354D5B),
+                fontSize: 14,
+                fontFamily: 'quicksand',
+                fontWeight: FontWeight.w400),
+          )));
+    }
+    return items;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _dropDownTagItems = getDropDownTagItems();
+    tag = _dropDownTagItems[0].value;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,158 +145,255 @@ class _LogEntryPageState extends State<LogEntryPage> {
                     fontWeight: FontWeight.w700),
               ),
             ),
-            Container(
-              child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 0.15),
-                      borderRadius: BorderRadius.circular(5)),
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-                  padding:
-                      EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 15),
-                  child: Wrap(
-                    children: <Widget>[
-                      Wrap(
-                          children:
-                              List.generate(checkedtagList.length, (index) {
-                        return checkedtagList[index] == "TextField"
-                            ? checkedtagList.length - 1 == tagList.length
-                                ? Container()
-                                : Container(
-                                    width: 50,
-                                    margin: EdgeInsets.only(
-                                      left: checkedtagList.length == 0 ? 10 : 0,
-                                    ),
-                                    child: TextField(
-                                      onChanged: (value) {
-                                        setState(() {
-                                          search = value;
-                                        });
-                                      },
-                                      controller: searchController,
-                                      autofocus: true,
-                                      style: TextStyle(
-                                          color: Color(0xff354D5B),
-                                          fontSize: 15,
-                                          fontFamily: 'quicksand',
-                                          fontWeight: FontWeight.w400),
-                                      decoration: InputDecoration(
-                                        hintText: "",
-                                        hintStyle: TextStyle(
-                                            color: Color(0xff354D5B),
-                                            fontSize: 14,
-                                            fontFamily: 'quicksand',
-                                            fontWeight: FontWeight.w400),
-                                        // labelStyle: TextStyle(
-                                        //     color: Color(0xff7A98A9),
-                                        //     fontSize: 15,
-                                        //     fontFamily: 'quicksand',
-                                        //     fontWeight: FontWeight.w500),
-                                        // labelText: "Old Password",
-                                        contentPadding: EdgeInsets.fromLTRB(
-                                            0.0, 15, 0.0, 10),
-                                        border: InputBorder.none,
-                                      ),
-                                    ),
-                                  )
-                            : Container(
-                                decoration: BoxDecoration(
-                                    color: Color(0xFFF8F8FA),
-                                    borderRadius: BorderRadius.circular(25)),
-                                padding: EdgeInsets.all(10),
-                                margin: EdgeInsets.only(
-                                    right: 10, top: 5, bottom: 5),
-                                child: Wrap(
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.only(left: 10),
-                                      child: Text(
-                                        "${checkedtagList[index]}",
-                                        style: TextStyle(
-                                            color: Color(0xff354D5B),
-                                            fontSize: 14,
-                                            fontFamily: 'quicksand',
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          checkedtagList
-                                              .remove(checkedtagList[index]);
-                                        });
-                                      },
-                                      child: Container(
-                                          padding: EdgeInsets.only(
-                                              left: 5, right: 5),
-                                          child: Icon(
-                                            Icons.close,
-                                            color: Colors.grey,
-                                            size: 18,
-                                          )),
-                                    )
-                                  ],
-                                ));
-                      })),
+            // Container(
+            //   child: Container(
+            //       decoration: BoxDecoration(
+            //           border: Border.all(color: Colors.grey, width: 0.15),
+            //           borderRadius: BorderRadius.circular(5)),
+            //       width: MediaQuery.of(context).size.width,
+            //       margin: EdgeInsets.only(left: 20, right: 20, top: 10),
+            //       padding:
+            //           EdgeInsets.only(top: 5, bottom: 5, right: 10, left: 15),
+            //       child: Wrap(
+            //         children: <Widget>[
+            //           Wrap(
+            //               children:
+            //                   List.generate(checkedtagList.length, (index) {
+            //             return checkedtagList[index] == "TextField"
+            //                 ? checkedtagList.length - 1 == tagList.length
+            //                     ? Container()
+            //                     : Container(
+            //                         width: 50,
+            //                         margin: EdgeInsets.only(
+            //                           left: checkedtagList.length == 0 ? 10 : 0,
+            //                         ),
+            //                         child: TextField(
+            //                           onChanged: (value) {
+            //                             setState(() {
+            //                               search = value;
+            //                             });
+            //                           },
+            //                           controller: searchController,
+            //                           autofocus: true,
+            //                           style: TextStyle(
+            //                               color: Color(0xff354D5B),
+            //                               fontSize: 15,
+            //                               fontFamily: 'quicksand',
+            //                               fontWeight: FontWeight.w400),
+            //                           decoration: InputDecoration(
+            //                             hintText: "",
+            //                             hintStyle: TextStyle(
+            //                                 color: Color(0xff354D5B),
+            //                                 fontSize: 14,
+            //                                 fontFamily: 'quicksand',
+            //                                 fontWeight: FontWeight.w400),
+            //                             // labelStyle: TextStyle(
+            //                             //     color: Color(0xff7A98A9),
+            //                             //     fontSize: 15,
+            //                             //     fontFamily: 'quicksand',
+            //                             //     fontWeight: FontWeight.w500),
+            //                             // labelText: "Old Password",
+            //                             contentPadding: EdgeInsets.fromLTRB(
+            //                                 0.0, 15, 0.0, 10),
+            //                             border: InputBorder.none,
+            //                           ),
+            //                         ),
+            //                       )
+            //                 : Container(
+            //                     decoration: BoxDecoration(
+            //                         color: Color(0xFFF8F8FA),
+            //                         borderRadius: BorderRadius.circular(25)),
+            //                     padding: EdgeInsets.all(10),
+            //                     margin: EdgeInsets.only(
+            //                         right: 10, top: 5, bottom: 5),
+            //                     child: Wrap(
+            //                       children: <Widget>[
+            //                         Container(
+            //                           margin: EdgeInsets.only(left: 10),
+            //                           child: Text(
+            //                             "${checkedtagList[index]}",
+            //                             style: TextStyle(
+            //                                 color: Color(0xff354D5B),
+            //                                 fontSize: 14,
+            //                                 fontFamily: 'quicksand',
+            //                                 fontWeight: FontWeight.w400),
+            //                           ),
+            //                         ),
+            //                         GestureDetector(
+            //                           onTap: () {
+            //                             setState(() {
+            //                               checkedtagList
+            //                                   .remove(checkedtagList[index]);
+            //                             });
+            //                           },
+            //                           child: Container(
+            //                               padding: EdgeInsets.only(
+            //                                   left: 5, right: 5),
+            //                               child: Icon(
+            //                                 Icons.close,
+            //                                 color: Colors.grey,
+            //                                 size: 18,
+            //                               )),
+            //                         )
+            //                       ],
+            //                     ));
+            //           })),
 
-                      //Container(child: Icon(Icons.add, color: selectedColor)),
-                    ],
-                  )),
-            ),
-            search == ""
-                ? Container()
-                : Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey, width: 0.15),
-                        borderRadius: BorderRadius.circular(5)),
-                    width: MediaQuery.of(context).size.width,
-                    margin: EdgeInsets.only(left: 20, right: 20, top: 0),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: List.generate(tagList.length, (index) {
-                          return tagList[index].toLowerCase().contains(search)
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      if (!checkedtagList
-                                          .contains(tagList[index])) {
-                                        checkedtagList.remove("TextField");
-                                        checkedtagList.add(tagList[index]);
-                                        checkedtagList.add("TextField");
-                                        search = "";
-                                        searchController.text = "";
-                                      } else {
-                                        checkedtagList.remove(tagList[index]);
-                                      }
-                                    });
-                                  },
-                                  child: Container(
-                                      padding: EdgeInsets.all(10),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            "${tagList[index]}",
-                                            style: TextStyle(
-                                                color: Color(0xff354D5B),
-                                                fontSize: 15,
-                                                fontFamily: 'quicksand',
-                                                fontWeight: FontWeight.w400),
-                                          ),
-                                          checkedtagList
-                                                  .contains(tagList[index])
-                                              ? Icon(
-                                                  Icons.done,
-                                                  color: selectedColor,
-                                                )
-                                              : Container()
-                                        ],
-                                      )),
-                                )
-                              : Container();
-                        })),
+            //           //Container(child: Icon(Icons.add, color: selectedColor)),
+            //         ],
+            //       )),
+            // ),
+            // search == ""
+            //     ? Container()
+            //     : Container(
+            //         decoration: BoxDecoration(
+            //             border: Border.all(color: Colors.grey, width: 0.15),
+            //             borderRadius: BorderRadius.circular(5)),
+            //         width: MediaQuery.of(context).size.width,
+            //         margin: EdgeInsets.only(left: 20, right: 20, top: 0),
+            //         child: Column(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: List.generate(tagList.length, (index) {
+            //               return tagList[index].toLowerCase().contains(search)
+            //                   ? GestureDetector(
+            //                       onTap: () {
+            //                         setState(() {
+            //                           if (!checkedtagList
+            //                               .contains(tagList[index])) {
+            //                             checkedtagList.remove("TextField");
+            //                             checkedtagList.add(tagList[index]);
+            //                             checkedtagList.add("TextField");
+            //                             search = "";
+            //                             searchController.text = "";
+            //                           } else {
+            //                             checkedtagList.remove(tagList[index]);
+            //                           }
+            //                         });
+            //                       },
+            //                       child: Container(
+            //                           padding: EdgeInsets.all(10),
+            //                           child: Row(
+            //                             mainAxisAlignment:
+            //                                 MainAxisAlignment.spaceBetween,
+            //                             children: <Widget>[
+            //                               Text(
+            //                                 "${tagList[index]}",
+            //                                 style: TextStyle(
+            //                                     color: Color(0xff354D5B),
+            //                                     fontSize: 15,
+            //                                     fontFamily: 'quicksand',
+            //                                     fontWeight: FontWeight.w400),
+            //                               ),
+            //                               checkedtagList
+            //                                       .contains(tagList[index])
+            //                                   ? Icon(
+            //                                       Icons.done,
+            //                                       color: selectedColor,
+            //                                     )
+            //                                   : Container()
+            //                             ],
+            //                           )),
+            //                     )
+            //                   : Container();
+            //             })),
+            //       ),
+            Container(
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 0.15),
+                  borderRadius: BorderRadius.circular(5)),
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+              padding: EdgeInsets.only(
+                top: 5,
+                bottom: 5,
+                right: 10,
+                left: 15,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Wrap(
+                      children:
+                          List.generate(checkedNewtagList.length, (index) {
+                    return Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xFFF8F8FA),
+                            borderRadius: BorderRadius.circular(25)),
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.only(right: 10, top: 5, bottom: 5),
+                        child: Wrap(
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(
+                                "${checkedNewtagList[index]}",
+                                style: TextStyle(
+                                    color: Color(0xff354D5B),
+                                    fontSize: 14,
+                                    fontFamily: 'quicksand',
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  checkedNewtagList
+                                      .remove(checkedNewtagList[index]);
+
+                                  if (checkedNewtagList == []) {
+                                    tag = checkedNewtagList[0];
+                                  }
+                                });
+                              },
+                              child: Container(
+                                  padding: EdgeInsets.only(left: 5, right: 5),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.grey,
+                                    size: 18,
+                                  )),
+                            )
+                          ],
+                        ));
+                  })),
+                  DropdownButtonHideUnderline(
+                    child: Container(
+                      child: DropdownButton(
+                        //icon: Icon(Icons.arrow_drop_down),
+                        isExpanded: true,
+                        // iconDisabledColor:
+                        //     Color(0xFF008990),
+                        iconEnabledColor: Color(0xff003A5B),
+                        // iconSize: 40,
+
+                        hint: Text("Tag"),
+                        style: TextStyle(
+                            color: Color(0xff354D5B),
+                            fontSize: 14,
+                            fontFamily: 'quicksand',
+                            fontWeight: FontWeight.w400),
+                        //value: tag,
+                        items: _dropDownTagItems,
+                        icon: Icon(
+                          Icons.expand_more,
+                          size: 20,
+                          color: Color(0xff003A5B),
+                        ),
+                        onChanged: (String value) {
+                          setState(() {
+                            tag = value;
+                            if (tag != "Tag" &&
+                                !checkedNewtagList.contains(tag)) {
+                              checkedNewtagList.add(tag);
+                            }
+                          });
+                        },
+                      ),
+                    ),
                   ),
+                ],
+              ),
+            ),
             Container(
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey, width: 0.15),

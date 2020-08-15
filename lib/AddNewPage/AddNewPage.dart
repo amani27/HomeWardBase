@@ -48,6 +48,7 @@ class _AddNewPageState extends State<AddNewPage> {
   List<DropdownMenuItem<String>> _dropDownTypeItems;
 
   List typeState = [
+    "Type",
     "Biographical",
     "Medical",
     "Dental",
@@ -66,7 +67,9 @@ class _AddNewPageState extends State<AddNewPage> {
             typeList,
             textAlign: TextAlign.end,
             style: TextStyle(
-                color: Color(0xff354D5B),
+                color: typeList == "Type"
+                    ? Color(0xff354D5B).withOpacity(0.6)
+                    : Color(0xff354D5B),
                 fontSize: 14,
                 fontFamily: 'quicksand',
                 fontWeight: FontWeight.w400),

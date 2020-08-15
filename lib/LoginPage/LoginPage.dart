@@ -21,12 +21,21 @@ class _LoginPageState extends State<LoginPage> {
   bool isPressed = false;
   bool emailBlank = false;
   bool passBlank = false;
-  String email = "", password = "";
+  String email = "", password = "", passwordTxt = "";
   double st = 0.0, end = 13.0;
   double minValue = 0.0;
   double maxValue = 25.0;
   double _lowerValue = 50;
   double _upperValue = 180;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    email = "demo@mail.com";
+    password = "123456";
+    passwordTxt = "Password field is blank";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,28 +157,23 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               emailBlank
-                  ? GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()));
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: 22, right: 20, top: 5, bottom: 0),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.error,
-                              color: Colors.redAccent,
-                              size: 14,
-                            ),
-                            Container(
+                  ? Container(
+                      margin: EdgeInsets.only(
+                          left: 22, right: 20, top: 5, bottom: 0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            Icons.error,
+                            color: Colors.redAccent,
+                            size: 14,
+                          ),
+                          Expanded(
+                            child: Container(
                               margin: EdgeInsets.only(left: 3),
                               child: Text(
                                 "Email field is blank",
-                                textAlign: TextAlign.center,
+                                textAlign: TextAlign.start,
                                 style: TextStyle(
                                     color: Colors.redAccent,
                                     fontFamily: "quicksand",
@@ -177,8 +181,8 @@ class _LoginPageState extends State<LoginPage> {
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     )
                   : Container(),
@@ -255,28 +259,23 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               passBlank
-                  ? GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RegisterPage()));
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(
-                            left: 22, right: 20, top: 5, bottom: 0),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.error,
-                              color: Colors.redAccent,
-                              size: 14,
-                            ),
-                            Container(
+                  ? Container(
+                      margin: EdgeInsets.only(
+                          left: 22, right: 20, top: 5, bottom: 0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            Icons.error,
+                            color: Colors.redAccent,
+                            size: 14,
+                          ),
+                          Expanded(
+                            child: Container(
                               margin: EdgeInsets.only(left: 3),
                               child: Text(
-                                "Password field is blank",
-                                textAlign: TextAlign.center,
+                                passwordTxt,
+                                textAlign: TextAlign.start,
                                 style: TextStyle(
                                     color: Colors.redAccent,
                                     fontFamily: "quicksand",
@@ -284,8 +283,8 @@ class _LoginPageState extends State<LoginPage> {
                                     fontWeight: FontWeight.bold),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     )
                   : Container(),
@@ -468,6 +467,12 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         passBlank = true;
         isPressed = false;
+      });
+    } else if (email != "demo@mail.com" || password != "123456") {
+      setState(() {
+        passBlank = true;
+        isPressed = false;
+        passwordTxt = "Username or password does not match";
       });
     } else {
       setState(() {

@@ -480,71 +480,79 @@ class _ProfileEventPageState extends State<ProfileEventPage> {
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: <Widget>[
-                                                  Container(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: <Widget>[
-                                                        Container(
-                                                          child: Text(
-                                                            newList[index]['info']
-                                                                        [ind1]
-                                                                    ['list1'][
-                                                                ind2]['details'],
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style: TextStyle(
-                                                                color: Color(
-                                                                    0xff003A5B),
-                                                                fontSize: 14,
-                                                                fontFamily:
-                                                                    'quicksand',
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                          ),
-                                                        ),
-                                                        newList[index]['info'][
-                                                                            ind1]
-                                                                        [
-                                                                        'list1'][ind2]
-                                                                    [
-                                                                    'details'] ==
-                                                                ""
-                                                            ? Container()
-                                                            : Container(
-                                                                margin: EdgeInsets
-                                                                    .only(
-                                                                        top: 5),
-                                                                child: Text(
-                                                                  newList[index]['info'][ind1]['list1']
-                                                                              [
-                                                                              ind2]
-                                                                          [
-                                                                          'stTime'] +
-                                                                      " - " +
-                                                                      newList[index]
-                                                                              [
-                                                                              'info'][ind1]['list1'][ind2]
-                                                                          [
-                                                                          'endTime'],
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .justify,
-                                                                  style: TextStyle(
-                                                                      color: Color(
-                                                                          0xff354D5B),
-                                                                      fontSize:
-                                                                          12,
-                                                                      fontFamily:
-                                                                          'quicksand',
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w400),
+                                                  Expanded(
+                                                    child: Container(
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: <Widget>[
+                                                          Row(
+                                                            children: <Widget>[
+                                                              Expanded(
+                                                                child: Container(
+                                                                  child: Text(
+                                                                    newList[index]['info']
+                                                                                [ind1]
+                                                                            ['list1'][
+                                                                        ind2]['details'],
+                                                                    textAlign:
+                                                                        TextAlign.start,
+                                                                    style: TextStyle(
+                                                                        color: Color(
+                                                                            0xff003A5B),
+                                                                        fontSize: 14,
+                                                                        fontFamily:
+                                                                            'quicksand',
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w500),
+                                                                  ),
                                                                 ),
                                                               ),
-                                                      ],
+                                                            ],
+                                                          ),
+                                                          newList[index]['info'][
+                                                                              ind1]
+                                                                          [
+                                                                          'list1'][ind2]
+                                                                      [
+                                                                      'details'] ==
+                                                                  ""
+                                                              ? Container()
+                                                              : Container(
+                                                                  margin: EdgeInsets
+                                                                      .only(
+                                                                          top: 5),
+                                                                  child: Text(
+                                                                    newList[index]['info'][ind1]['list1']
+                                                                                [
+                                                                                ind2]
+                                                                            [
+                                                                            'stTime'] +
+                                                                        " - " +
+                                                                        newList[index]
+                                                                                [
+                                                                                'info'][ind1]['list1'][ind2]
+                                                                            [
+                                                                            'endTime'],
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .justify,
+                                                                    style: TextStyle(
+                                                                        color: Color(
+                                                                            0xff354D5B),
+                                                                        fontSize:
+                                                                            12,
+                                                                        fontFamily:
+                                                                            'quicksand',
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .w400),
+                                                                  ),
+                                                                ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                   newList[index]['info'][ind1]

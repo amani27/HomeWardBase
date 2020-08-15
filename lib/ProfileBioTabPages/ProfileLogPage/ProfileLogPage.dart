@@ -63,7 +63,7 @@ class _ProfileLogPageState extends State<ProfileLogPage> {
               decoration: BoxDecoration(
                   color: Colors.white, borderRadius: BorderRadius.circular(5)),
               width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+              margin: EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 5),
               padding: EdgeInsets.only(top: 5, bottom: 5, right: 10),
               child: TextField(
                 onChanged: (value) {

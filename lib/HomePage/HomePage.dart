@@ -642,9 +642,14 @@ class _HomePageState extends State<HomePage> {
                         initList[index]['boa']
                             ? Container(
                                 margin: EdgeInsets.only(right: 5, left: 0),
-                                child: Image.asset("assets/image/boa.png"),
+                                //child: Image.asset("assets/image/boa.png"),
                                 height: 23,
                                 width: 23,
+                                child: Icon(
+                                  Icons.notifications,
+                                  size: 18,
+                                  color: Color(0xffFFBA0D),
+                                ),
                               )
                             : Container(),
                       ],

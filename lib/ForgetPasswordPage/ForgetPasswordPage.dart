@@ -10,6 +10,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   TextEditingController emailController = new TextEditingController();
   String email = "";
   bool emailCorrect = false;
+  bool emailSent = false;
 
   @override
   Widget build(BuildContext context) {
@@ -126,10 +127,43 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
                   endIndent: 0,
                 ),
               ),
+              emailSent
+                  ? Container(
+                      margin: EdgeInsets.only(
+                          left: 22, right: 20, top: 5, bottom: 0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            Icons.done,
+                            color: selectedColor,
+                            size: 14,
+                          ),
+                          Expanded(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 3),
+                              child: Text(
+                                "6 digit code has been sent to your email successfully! Please check your email to proceed",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontFamily: "quicksand",
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : Container(),
               GestureDetector(
                 onTap: () {
                   // Navigator.push(context,
                   //     MaterialPageRoute(builder: (context) => LoginPage()));
+                  setState(() {
+                    emailSent = true;
+                  });
                 },
                 child: Container(
                   margin: EdgeInsets.all(20),

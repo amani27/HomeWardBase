@@ -88,13 +88,13 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
   String currentYear = "";
   String currentWeekDay = "";
   String today = "";
+  bool isSearch = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     setState(() {
-      
       for (int i = 0; i < chatList.length; i++) {
         chatPerson.add(chatList[i]['person']);
       }
@@ -103,387 +103,65 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(bottom: 90),
-          child: Column(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5)),
-                width: MediaQuery.of(context).size.width,
-                margin:
-                    EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 20),
-                padding: EdgeInsets.only(top: 5, bottom: 5, right: 10),
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      searchChat = value;
-                    });
-                  },
-                  controller: searchChatController,
-                  autofocus: false,
-                  style: TextStyle(
-                      color: Color(0xff354D5B),
-                      fontSize: 17,
-                      fontFamily: 'quicksand',
-                      fontWeight: FontWeight.w400),
-                  decoration: InputDecoration(
-                    prefixIcon: Container(
-                      padding: EdgeInsets.only(
-                          left: 10, top: 10, right: 10, bottom: 10),
-                      margin: EdgeInsets.only(left: 10),
-                      child: Image.asset(
-                        'assets/image/search1.png',
-                        height: 12,
-                        width: 12,
-                      ),
-                    ),
-
-                    hintText: "Search",
-                    hintStyle: TextStyle(
-                        color: Color(0xff354D5B),
-                        fontSize: 17,
-                        fontFamily: 'quicksand',
-                        fontWeight: FontWeight.w400),
-                    // labelStyle: TextStyle(
-                    //     color: Color(0xff7A98A9),
-                    //     fontSize: 15,
-                    //     fontFamily: 'quicksand',
-                    //     fontWeight: FontWeight.w500),
-                    // labelText: "Old Password",
-                    contentPadding: EdgeInsets.fromLTRB(12.0, 12, 12.0, 12),
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: ScrollConfiguration(
-                  behavior: new ScrollBehavior()
-                    ..buildViewportChrome(context, null, AxisDirection.down),
-                  child: Container(
-                    child: ListView.builder(
-                        itemCount: chatList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          List<TextSpan> spanText = [];
-                          int samePerson = 0;
-                          if (user == chatList[index]['person']) {
-                            samePerson = 1;
-                          }
-                          user = chatList[index]['person'];
-
-                          String msg = chatList[index]['chat'];
-                          List msgList = msg.split(" ");
-                          print("msgList ${index + 1}");
-                          print(msgList);
-
-                          for (int i = 0; i < msgList.length; i++) {
-                            spanText.add(TextSpan(
-                                text: '${msgList[i]} ',
-                                style: TextStyle(
-                                    color: chatList[index]['person'] == "Me"
-                                        ? Colors.white
-                                        : (msgList[i].startsWith("@") &&
-                                                chatPerson.contains(
-                                                    msgList[i].substring(1)))
-                                            ? selectedColor
-                                            : Color(0xff172B4D),
-                                    fontSize: 13,
-                                    fontFamily: 'quicksand',
-                                    fontWeight: (msgList[i].startsWith("@") &&
-                                            chatPerson.contains(
-                                                msgList[i].substring(1)))
-                                        ? FontWeight.bold
-                                        : FontWeight.w600)));
-                          }
-
-                          return Column(
-                            children: <Widget>[
-                              chatList[index]['person'] == "Me"
-                                  ? Container()
-                                  : samePerson == 1
-                                      ? Container()
-                                      : Container(
-                                          child: Row(
-                                            children: <Widget>[
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 15),
-                                                alignment: Alignment.centerLeft,
-                                                padding: EdgeInsets.all(5),
-                                                child: Image.asset(
-                                                  "${chatList[index]['pic']}",
-                                                  height: 38,
-                                                  width: 38,
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 10),
-                                                child: Text(
-                                                  "${chatList[index]['person']}",
-                                                  style: TextStyle(
-                                                      color: Color(0xff172B4D),
-                                                      fontSize: 17,
-                                                      fontFamily: 'quicksand',
-                                                      fontWeight:
-                                                          FontWeight.w600),
-                                                ),
-                                              ),
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 10),
-                                                child: Text(
-                                                  "${chatList[index]['date']} at ${chatList[index]['time']} ${chatList[index]['ampm']}",
-                                                  style: TextStyle(
-                                                      color: Color(0xff000000),
-                                                      fontSize: 13,
-                                                      fontFamily: 'quicksand',
-                                                      fontWeight:
-                                                          FontWeight.w400),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                              Container(
-                                child: Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Container(
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                            left: chatList[index]['person'] ==
-                                                    "Me"
-                                                ? 120
-                                                : 50,
-                                            right: chatList[index]['person'] ==
-                                                    "Me"
-                                                ? 0
-                                                : 120,
-                                          ),
-                                          child: Row(
-                                            children: <Widget>[
-                                              Expanded(
-                                                child: Container(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        chatList[index][
-                                                                    'person'] ==
-                                                                "Me"
-                                                            ? CrossAxisAlignment
-                                                                .end
-                                                            : CrossAxisAlignment
-                                                                .start,
-                                                    children: <Widget>[
-                                                      ////// <<<<< Message >>>>> //////
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          setState(() {
-                                                            if (chatList[index]
-                                                                    ['view'] ==
-                                                                true) {
-                                                              chatList[index]
-                                                                      ['view'] =
-                                                                  false;
-                                                            } else {
-                                                              chatList[index]
-                                                                      ['view'] =
-                                                                  true;
-                                                            }
-                                                          });
-                                                        },
-                                                        child: Container(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  left: 15,
-                                                                  top: 10,
-                                                                  bottom: 10,
-                                                                  right: 15),
-                                                          margin:
-                                                              EdgeInsets.only(
-                                                                  top: 1,
-                                                                  left: 20,
-                                                                  right: 20),
-                                                          decoration:
-                                                              new BoxDecoration(
-                                                            color: chatList[index]
-                                                                        [
-                                                                        'person'] ==
-                                                                    "Me"
-                                                                ? selectedColor
-                                                                : Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            10)),
-                                                          ),
-                                                          // child: Text(
-                                                          //   "${chatList[index]['chat']}",
-                                                          //   style: TextStyle(color: chatList[index]['person'] == "Me" ? Colors.white : Color(0xff172B4D), fontSize: 13, fontFamily: 'quicksand', fontWeight: FontWeight.w600),
-                                                          // ),
-                                                          child: RichText(
-                                                              text: TextSpan(
-                                                                  children:
-                                                                      spanText)),
-                                                        ),
-                                                      ),
-                                                      chatList[index]['view'] ==
-                                                              true
-                                                          ? Container(
-                                                              margin: EdgeInsets.only(
-                                                                  left: chatList[index]
-                                                                              [
-                                                                              'person'] ==
-                                                                          "Me"
-                                                                      ? 0
-                                                                      : 20,
-                                                                  right: chatList[index]
-                                                                              [
-                                                                              'person'] ==
-                                                                          "Me"
-                                                                      ? 20
-                                                                      : 0,
-                                                                  top: 3,
-                                                                  bottom: 10),
-                                                              child: Text(
-                                                                "${chatList[index]['time']} am",
-                                                                style: TextStyle(
-                                                                    color: Color(
-                                                                        0xff172B4D),
-                                                                    fontSize:
-                                                                        13,
-                                                                    fontFamily:
-                                                                        'quicksand',
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w400),
-                                                              ),
-                                                            )
-                                                          : Container(),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        }),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Container(),
-            Container(
-              height: 90,
-              color: Colors.white,
-              alignment: Alignment.bottomCenter,
-              child: Wrap(
-                children: <Widget>[
-                  Container(
-                    //height: 15,
-                    margin: EdgeInsets.only(left: 0, right: 0, top: 0),
-                    child: Divider(
-                      color: Colors.black,
-                      height: 2,
-                      thickness: 0.1,
-                      //indent: 20,
-                      endIndent: 0,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(20),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(bottom: 0),
+            child: Column(
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isSearch = true;
+                        });
+                      },
                       child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.only(top: 0, bottom: 0),
-                        margin: EdgeInsets.only(top: 0),
                         decoration: BoxDecoration(
-                            color: Color(0xFFF8F8FA),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: Color(0xFFF8F8FA),
-                            )),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5)),
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                            top: 20,
+                            bottom: isSearch ? 5 : 20),
+                        padding: EdgeInsets.only(top: 5, bottom: 5, right: 10),
                         child: TextField(
                           onChanged: (value) {
                             setState(() {
-                              sendChat = value;
+                              searchChat = value;
                             });
                           },
-                          controller: sendChatController,
+                          controller: searchChatController,
                           autofocus: false,
+                          enabled: isSearch,
                           style: TextStyle(
-                              color: Color(0xffC1C7D0),
-                              fontSize: 14,
+                              color: Color(0xff354D5B),
+                              fontSize: 17,
                               fontFamily: 'quicksand',
-                              fontWeight: FontWeight.w700),
+                              fontWeight: FontWeight.w400),
                           decoration: InputDecoration(
-                            prefixIcon: Wrap(
-                              children: <Widget>[
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LogFilterPage()));
-                                  },
-                                  child: Container(
-                                      padding: EdgeInsets.only(
-                                          left: 10,
-                                          top: 10,
-                                          right: 10,
-                                          bottom: 10),
-                                      margin: EdgeInsets.only(left: 10, top: 5),
-                                      child: Icon(Icons.mood,
-                                          color: Color(0xffC1C7D0), size: 20)),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.only(
-                                      left: 5, top: 5, right: 5, bottom: 5),
-                                  margin: EdgeInsets.only(top: 12, right: 10),
-                                  child: Image.asset(
-                                    'assets/image/attach.png',
-                                    height: 17,
-                                    width: 17,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            suffixIcon: Container(
+                            prefixIcon: Container(
                               padding: EdgeInsets.only(
-                                  left: 5, top: 5, right: 5, bottom: 5),
-                              margin: EdgeInsets.only(left: 10, right: 10),
+                                  left: 10, top: 10, right: 10, bottom: 10),
+                              margin: EdgeInsets.only(left: 10),
                               child: Image.asset(
-                                'assets/image/send.png',
-                                height: 15,
-                                width: 22,
+                                'assets/image/search1.png',
+                                height: 12,
+                                width: 12,
                               ),
                             ),
-                            hintText: "Start typing...",
+
+                            hintText: "Search",
                             hintStyle: TextStyle(
-                                color: Color(0xffC1C7D0),
-                                fontSize: 14,
+                                color: Color(0xff354D5B),
+                                fontSize: 17,
                                 fontFamily: 'quicksand',
-                                fontWeight: FontWeight.w700),
+                                fontWeight: FontWeight.w400),
                             // labelStyle: TextStyle(
                             //     color: Color(0xff7A98A9),
                             //     fontSize: 15,
@@ -491,19 +169,422 @@ class _ProfileChatPageState extends State<ProfileChatPage> {
                             //     fontWeight: FontWeight.w500),
                             // labelText: "Old Password",
                             contentPadding:
-                                EdgeInsets.fromLTRB(0.0, 15, 10.0, 0),
+                                EdgeInsets.fromLTRB(12.0, 12, 12.0, 12),
                             border: InputBorder.none,
                           ),
                         ),
                       ),
                     ),
+                    isSearch
+                        ? GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isSearch = false;
+                              });
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 20),
+                              padding: EdgeInsets.all(5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.done_outline,
+                                    size: 15,
+                                    color: selectedColor,
+                                  ),
+                                  SizedBox(width: 3),
+                                  Text(
+                                    "Re-type",
+                                    style: TextStyle(
+                                        color: selectedColor,
+                                        fontSize: 12,
+                                        fontFamily: 'quicksand',
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        : Container()
+                  ],
+                ),
+                Expanded(
+                  child: ScrollConfiguration(
+                    behavior: new ScrollBehavior()
+                      ..buildViewportChrome(context, null, AxisDirection.down),
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: isSearch ? 0 : 90),
+                      child: ListView.builder(
+                          itemCount: chatList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            List<TextSpan> spanText = [];
+                            int samePerson = 0;
+                            if (user == chatList[index]['person']) {
+                              samePerson = 1;
+                            }
+                            user = chatList[index]['person'];
+
+                            String msg = chatList[index]['chat'];
+                            List msgList = msg.split(" ");
+                            print("msgList ${index + 1}");
+                            print(msgList);
+
+                            for (int i = 0; i < msgList.length; i++) {
+                              spanText.add(TextSpan(
+                                  text: '${msgList[i]} ',
+                                  style: TextStyle(
+                                      color: chatList[index]['person'] == "Me"
+                                          ? Colors.white
+                                          : (msgList[i].startsWith("@") &&
+                                                  chatPerson.contains(
+                                                      msgList[i].substring(1)))
+                                              ? selectedColor
+                                              : Color(0xff172B4D),
+                                      fontSize: 13,
+                                      fontFamily: 'quicksand',
+                                      fontWeight: (msgList[i].startsWith("@") &&
+                                              chatPerson.contains(
+                                                  msgList[i].substring(1)))
+                                          ? FontWeight.bold
+                                          : FontWeight.w600)));
+                            }
+
+                            return Column(
+                              children: <Widget>[
+                                chatList[index]['person'] == "Me"
+                                    ? Container()
+                                    : samePerson == 1
+                                        ? Container()
+                                        : Container(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 15),
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  padding: EdgeInsets.all(5),
+                                                  child: Image.asset(
+                                                    "${chatList[index]['pic']}",
+                                                    height: 38,
+                                                    width: 38,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 10),
+                                                  child: Text(
+                                                    "${chatList[index]['person']}",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xff172B4D),
+                                                        fontSize: 17,
+                                                        fontFamily: 'quicksand',
+                                                        fontWeight:
+                                                            FontWeight.w600),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin:
+                                                      EdgeInsets.only(left: 10),
+                                                  child: Text(
+                                                    "${chatList[index]['date']} at ${chatList[index]['time']} ${chatList[index]['ampm']}",
+                                                    style: TextStyle(
+                                                        color:
+                                                            Color(0xff000000),
+                                                        fontSize: 13,
+                                                        fontFamily: 'quicksand',
+                                                        fontWeight:
+                                                            FontWeight.w400),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Container(
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              left: chatList[index]['person'] ==
+                                                      "Me"
+                                                  ? 120
+                                                  : 50,
+                                              right: chatList[index]
+                                                          ['person'] ==
+                                                      "Me"
+                                                  ? 0
+                                                  : 120,
+                                            ),
+                                            child: Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                  child: Container(
+                                                    child: Column(
+                                                      crossAxisAlignment: chatList[
+                                                                      index]
+                                                                  ['person'] ==
+                                                              "Me"
+                                                          ? CrossAxisAlignment
+                                                              .end
+                                                          : CrossAxisAlignment
+                                                              .start,
+                                                      children: <Widget>[
+                                                        ////// <<<<< Message >>>>> //////
+                                                        GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              if (chatList[
+                                                                          index]
+                                                                      [
+                                                                      'view'] ==
+                                                                  true) {
+                                                                chatList[index][
+                                                                        'view'] =
+                                                                    false;
+                                                              } else {
+                                                                chatList[index][
+                                                                        'view'] =
+                                                                    true;
+                                                              }
+                                                            });
+                                                          },
+                                                          child: Container(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    left: 15,
+                                                                    top: 10,
+                                                                    bottom: 10,
+                                                                    right: 15),
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    top: 1,
+                                                                    left: 20,
+                                                                    right: 20),
+                                                            decoration:
+                                                                new BoxDecoration(
+                                                              color: chatList[index]
+                                                                          [
+                                                                          'person'] ==
+                                                                      "Me"
+                                                                  ? selectedColor
+                                                                  : Colors
+                                                                      .white,
+                                                              borderRadius: BorderRadius
+                                                                  .all(Radius
+                                                                      .circular(
+                                                                          10)),
+                                                            ),
+                                                            // child: Text(
+                                                            //   "${chatList[index]['chat']}",
+                                                            //   style: TextStyle(color: chatList[index]['person'] == "Me" ? Colors.white : Color(0xff172B4D), fontSize: 13, fontFamily: 'quicksand', fontWeight: FontWeight.w600),
+                                                            // ),
+                                                            child: RichText(
+                                                                text: TextSpan(
+                                                                    children:
+                                                                        spanText)),
+                                                          ),
+                                                        ),
+                                                        chatList[index]
+                                                                    ['view'] ==
+                                                                true
+                                                            ? Container(
+                                                                margin: EdgeInsets.only(
+                                                                    left: chatList[index]['person'] ==
+                                                                            "Me"
+                                                                        ? 0
+                                                                        : 20,
+                                                                    right: chatList[index]['person'] ==
+                                                                            "Me"
+                                                                        ? 20
+                                                                        : 0,
+                                                                    top: 3,
+                                                                    bottom: 10),
+                                                                child: Text(
+                                                                  "${chatList[index]['time']} am",
+                                                                  style: TextStyle(
+                                                                      color: Color(
+                                                                          0xff172B4D),
+                                                                      fontSize:
+                                                                          13,
+                                                                      fontFamily:
+                                                                          'quicksand',
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w400),
+                                                                ),
+                                                              )
+                                                            : Container(),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            );
+                          }),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        )
-      ],
+          ),
+          isSearch
+              ? Container()
+              : Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Container(),
+                      Container(
+                        //height: 90,
+                        color: Colors.white,
+                        alignment: Alignment.bottomCenter,
+                        child: Wrap(
+                          children: <Widget>[
+                            Container(
+                              //height: 15,
+                              margin:
+                                  EdgeInsets.only(left: 0, right: 0, top: 0),
+                              child: Divider(
+                                color: Colors.black,
+                                height: 2,
+                                thickness: 0.1,
+                                //indent: 20,
+                                endIndent: 0,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.all(20),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.only(top: 0, bottom: 0),
+                                margin: EdgeInsets.only(top: 0),
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFF8F8FA),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Color(0xFFF8F8FA),
+                                    )),
+                                child: Row(
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        LogFilterPage()));
+                                          },
+                                          child: Container(
+                                              padding: EdgeInsets.only(
+                                                  left: 10,
+                                                  top: 10,
+                                                  right: 10,
+                                                  bottom: 10),
+                                              margin: EdgeInsets.only(
+                                                  left: 5, top: 0),
+                                              child: Icon(Icons.mood,
+                                                  color: Color(0xffC1C7D0),
+                                                  size: 20)),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(
+                                              left: 5,
+                                              top: 5,
+                                              right: 5,
+                                              bottom: 5),
+                                          margin: EdgeInsets.only(
+                                              top: 0, right: 10),
+                                          child: Image.asset(
+                                            'assets/image/attach.png',
+                                            height: 17,
+                                            width: 17,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Flexible(
+                                      child: ConstrainedBox(
+                                        constraints: BoxConstraints(
+                                          maxHeight: 45.0,
+                                        ),
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.vertical,
+                                          child: Container(
+                                            child: TextField(
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  sendChat = value;
+                                                });
+                                              },
+                                              controller: sendChatController,
+                                              maxLines: null,
+                                              autofocus: false,
+                                              style: TextStyle(
+                                                  color: Color(0xffC1C7D0),
+                                                  fontSize: 14,
+                                                  fontFamily: 'quicksand',
+                                                  fontWeight: FontWeight.w700),
+                                              decoration: InputDecoration(
+                                                hintText: "Start typing...",
+                                                hintStyle: TextStyle(
+                                                    color: Color(0xffC1C7D0),
+                                                    fontSize: 14,
+                                                    fontFamily: 'quicksand',
+                                                    fontWeight:
+                                                        FontWeight.w700),
+                                                // labelStyle: TextStyle(
+                                                //     color: Color(0xff7A98A9),
+                                                //     fontSize: 15,
+                                                //     fontFamily: 'quicksand',
+                                                //     fontWeight: FontWeight.w500),
+                                                // labelText: "Old Password",
+                                                contentPadding:
+                                                    EdgeInsets.fromLTRB(
+                                                        0.0, 15, 10.0, 15),
+                                                border: InputBorder.none,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.only(
+                                          left: 5, top: 5, right: 5, bottom: 5),
+                                      margin:
+                                          EdgeInsets.only(left: 10, right: 10),
+                                      child: Image.asset(
+                                        'assets/image/send.png',
+                                        height: 15,
+                                        width: 22,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+        ],
+      ),
     );
   }
 }
